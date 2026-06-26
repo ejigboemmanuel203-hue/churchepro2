@@ -21,3 +21,30 @@ body {
   scroll-behavior: smooth;
 }
 
+/* ---- Daily Devotion: page-flip-on-hover book icon ---- */
+@keyframes pageTurn {
+  0% {
+    transform: rotateY(0deg);
+  }
+  60%,
+  100% {
+    transform: rotateY(-168deg);
+  }
+}
+
+/* On hover, each leaf turns once; staggered delays span ~2s total.
+   iteration-count:1 means it plays the 2s sequence once even while held. */
+.flipbook:hover .leaf {
+  animation: pageTurn 0.6s ease-in-out both;
+}
+.flipbook:hover .leaf-1 { animation-delay: 0s; }
+.flipbook:hover .leaf-2 { animation-delay: 0.45s; }
+.flipbook:hover .leaf-3 { animation-delay: 0.9s; }
+.flipbook:hover .leaf-4 { animation-delay: 1.35s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flipbook:hover .leaf {
+    animation: none;
+  }
+}
+

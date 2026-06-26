@@ -4,12 +4,18 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { Reveal } from "@/components/reveal";
+import { FlipBook } from "@/components/flip-book";
 import { DEMO_MODE } from "@/lib/demo-mode";
 
-const features = [
+const features: {
+  icon?: string;
+  node?: React.ReactNode;
+  title: string;
+  desc: string;
+}[] = [
   { icon: "🗓️", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
   { icon: "🤝", title: "Follow-up", desc: "Stay in touch with members and first-time visitors." },
-  { icon: "📖", title: "Daily Devotion", desc: "Share a daily devotion guide your members can read anywhere." },
+  { node: <FlipBook />, title: "Daily Devotion", desc: "Share a daily devotion guide your members can read anywhere." },
   { icon: "✨", title: "AI Bible Quiz", desc: "Engage members with AI-powered Bible knowledge quizzes." },
 ];
 
@@ -148,7 +154,7 @@ export default function Home() {
                   delay={i * 120}
                   className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
                 >
-                  <div className="text-3xl">{f.icon}</div>
+                  <div className="flex h-11 items-center text-3xl">{f.node ?? f.icon}</div>
                   <h3 className="mt-4 font-semibold text-deep">{f.title}</h3>
                   <p className="mt-2 text-sm text-steel">{f.desc}</p>
                 </Reveal>
