@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { DEMO_MODE } from "@/lib/demo-mode";
+import { useScrollAnimation } from "@/lib/hooks/use-scroll-animation";
 
 const features = [
   { icon: "🗓️", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
@@ -46,6 +49,10 @@ const steps = [
 
 export default function Home() {
   const year = new Date().getFullYear();
+
+  const howItWorksRef = useScrollAnimation("animate-fade-in-up");
+  const featuresRef = useScrollAnimation("animate-fade-in-up");
+  const ctaRef = useScrollAnimation("animate-fade-in-up");
 
   return (
     <>
@@ -98,7 +105,7 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section className="bg-white py-20">
+        <section ref={howItWorksRef} className="bg-white py-20 animate-fade-in-up">
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="text-center text-3xl font-bold text-navy">
               How it works
@@ -110,7 +117,7 @@ export default function Home() {
               {/* connecting line (desktop only) */}
               <div className="absolute top-7 left-0 right-0 hidden h-0.5 bg-ice sm:block" aria-hidden="true" />
               {steps.map((s, i) => (
-                <div key={s.title} className="relative flex flex-col items-center text-center">
+                <div key={s.title} className={`relative flex flex-col items-center text-center animate-fade-in-up animate-delay-${(i + 1) * 100}`}>
                   <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-sky text-white shadow-sm">
                     {s.icon}
                   </div>
@@ -126,7 +133,7 @@ export default function Home() {
         </section>
 
         {/* Features */}
-        <section className="bg-ice py-20">
+        <section ref={featuresRef} className="bg-ice py-20 animate-fade-in-up">
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="text-center text-3xl font-bold text-navy">
               Everything your church needs
@@ -135,10 +142,10 @@ export default function Home() {
               One simple platform for the people and programs you serve.
             </p>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {features.map((f) => (
+              {features.map((f, i) => (
                 <div
                   key={f.title}
-                  className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
+                  className={`rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 animate-fade-in-up animate-delay-${(i + 1) * 100}`}
                 >
                   <div className="text-3xl">{f.icon}</div>
                   <h3 className="mt-4 font-semibold text-deep">{f.title}</h3>
@@ -150,7 +157,7 @@ export default function Home() {
         </section>
 
         {/* CTA */}
-        <section className="bg-deep py-16">
+        <section ref={ctaRef} className="bg-deep py-16 animate-fade-in-up">
           <div className="mx-auto max-w-3xl px-6 text-center">
             <h2 className="text-3xl font-bold text-white">
               {DEMO_MODE ? "Demo Mode" : "Ready to get started?"}
