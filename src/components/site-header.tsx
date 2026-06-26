@@ -4,7 +4,7 @@ import Link from "next/link";
 // Public header shown on marketing/auth pages.
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-[#FAF8F0]/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-ice bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:px-6 sm:py-5">
         <Link href="/" className="flex min-w-0 items-center gap-2">
           <Image
