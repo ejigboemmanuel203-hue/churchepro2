@@ -5,7 +5,7 @@ import Link from "next/link";
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-ice bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:py-5">
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo.png"
@@ -15,20 +15,20 @@ export function SiteHeader() {
             className="h-10 w-10 object-contain"
             priority
           />
-          <span className="text-xl font-bold text-navy">
+          <span className="text-lg sm:text-xl font-bold text-navy">
             Churche<span className="text-sky">pro</span>
           </span>
         </Link>
-        <nav className="flex items-center gap-2 sm:gap-3">
+        <nav className="flex items-center gap-3 sm:gap-4">
           <Link
             href="/login"
-            className="px-3 py-2 text-sm font-medium text-deep transition-colors hover:text-navy"
+            className="px-4 py-2.5 text-sm font-medium text-deep transition-colors hover:text-navy"
           >
             Sign in
           </Link>
           <Link
             href="/signup"
-            className="rounded-full bg-sky px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-deep"
+            className="rounded-full bg-sky px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-deep"
           >
             Get started
           </Link>
