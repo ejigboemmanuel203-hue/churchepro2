@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { HeroSlideshow } from "@/components/hero-slideshow";
-import { useScrollAnimation } from "@/lib/hooks/use-scroll-animation";
+import { Reveal } from "@/components/reveal";
 import { DEMO_MODE } from "@/lib/demo-mode";
 
 const features = [
@@ -49,10 +49,6 @@ const steps = [
 
 export default function Home() {
   const year = new Date().getFullYear();
-
-  const howItWorksRef = useScrollAnimation("animate-fade-in-up");
-  const featuresRef = useScrollAnimation("animate-fade-in-up");
-  const ctaRef = useScrollAnimation("animate-fade-in-up");
 
   return (
     <>
@@ -105,19 +101,21 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section ref={howItWorksRef} className="bg-white py-20 animate-fade-in-up">
+        <section className="bg-white py-20">
           <div className="mx-auto max-w-6xl px-6">
-            <h2 className="text-center text-3xl font-bold text-navy">
-              How it works
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-center text-steel">
-              Get your church up and running in three simple steps.
-            </p>
+            <Reveal>
+              <h2 className="text-center text-3xl font-bold text-navy">
+                How it works
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-center text-steel">
+                Get your church up and running in three simple steps.
+              </p>
+            </Reveal>
             <div className="relative mt-14 grid gap-10 sm:grid-cols-3">
               {/* connecting line (desktop only) */}
               <div className="absolute top-7 left-0 right-0 hidden h-0.5 bg-ice sm:block" aria-hidden="true" />
               {steps.map((s, i) => (
-                <div key={s.title} className={`relative flex flex-col items-center text-center animate-fade-in-up animate-delay-${(i + 1) * 100}`}>
+                <Reveal key={s.title} delay={i * 120} className="relative flex flex-col items-center text-center">
                   <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-sky text-white shadow-sm">
                     {s.icon}
                   </div>
@@ -126,39 +124,42 @@ export default function Home() {
                   </span>
                   <h3 className="mt-1 font-semibold text-navy">{s.title}</h3>
                   <p className="mt-2 max-w-xs text-sm text-steel">{s.desc}</p>
-                </div>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
         {/* Features */}
-        <section ref={featuresRef} className="bg-ice py-20 animate-fade-in-up">
+        <section className="bg-ice py-20">
           <div className="mx-auto max-w-6xl px-6">
-            <h2 className="text-center text-3xl font-bold text-navy">
-              Everything your church needs
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-center text-steel">
-              One simple platform for the people and programs you serve.
-            </p>
+            <Reveal>
+              <h2 className="text-center text-3xl font-bold text-navy">
+                Everything your church needs
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-center text-steel">
+                One simple platform for the people and programs you serve.
+              </p>
+            </Reveal>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {features.map((f, i) => (
-                <div
+                <Reveal
                   key={f.title}
-                  className={`rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 animate-fade-in-up animate-delay-${(i + 1) * 100}`}
+                  delay={i * 120}
+                  className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
                 >
                   <div className="text-3xl">{f.icon}</div>
                   <h3 className="mt-4 font-semibold text-deep">{f.title}</h3>
                   <p className="mt-2 text-sm text-steel">{f.desc}</p>
-                </div>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
         {/* CTA */}
-        <section ref={ctaRef} className="bg-deep py-16 animate-fade-in-up">
-          <div className="mx-auto max-w-3xl px-6 text-center">
+        <section className="bg-deep py-16">
+          <Reveal className="mx-auto max-w-3xl px-6 text-center">
             <h2 className="text-3xl font-bold text-white">
               {DEMO_MODE ? "Demo Mode" : "Ready to get started?"}
             </h2>
@@ -177,7 +178,7 @@ export default function Home() {
                 Get started free
               </Link>
             )}
-          </div>
+          </Reveal>
         </section>
 
         <footer className="bg-navy py-8 text-center text-sm text-ice">
