@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { HeroSlideshow } from "@/components/hero-slideshow";
+import { DEMO_MODE } from "@/lib/demo-mode";
 
 const features = [
   { icon: "🗓️", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
@@ -67,18 +68,31 @@ export default function Home() {
               each church in its own private, secure space.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Link
-                href="/signup"
-                className="rounded-full bg-sky px-8 py-3 font-semibold text-white transition-colors hover:bg-deep"
-              >
-                Get started free
-              </Link>
-              <Link
-                href="/login"
-                className="rounded-full border border-white/70 px-8 py-3 font-semibold text-white transition-colors hover:bg-white/10"
-              >
-                Sign in
-              </Link>
+              {DEMO_MODE ? (
+                <>
+                  <button disabled className="rounded-full bg-gray-400 px-8 py-3 font-semibold text-white cursor-not-allowed opacity-60">
+                    Get started free
+                  </button>
+                  <button disabled className="rounded-full border border-gray-400 px-8 py-3 font-semibold text-white cursor-not-allowed opacity-60">
+                    Sign in
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/signup"
+                    className="rounded-full bg-sky px-8 py-3 font-semibold text-white transition-colors hover:bg-deep"
+                  >
+                    Get started free
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="rounded-full border border-white/70 px-8 py-3 font-semibold text-white transition-colors hover:bg-white/10"
+                  >
+                    Sign in
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -139,17 +153,23 @@ export default function Home() {
         <section className="bg-deep py-16">
           <div className="mx-auto max-w-3xl px-6 text-center">
             <h2 className="text-3xl font-bold text-white">
-              Ready to get started?
+              {DEMO_MODE ? "Demo Mode" : "Ready to get started?"}
             </h2>
             <p className="mt-3 text-ice">
-              Create your church&apos;s account in under two minutes.
+              {DEMO_MODE ? "This is a read-only preview for observation only." : "Create your church's account in under two minutes."}
             </p>
-            <Link
-              href="/signup"
-              className="mt-8 inline-block rounded-full bg-sky px-8 py-3 font-semibold text-white transition-colors hover:bg-navy"
-            >
-              Get started free
-            </Link>
+            {DEMO_MODE ? (
+              <button disabled className="mt-8 inline-block rounded-full bg-gray-600 px-8 py-3 font-semibold text-white cursor-not-allowed opacity-60">
+                Get started free
+              </button>
+            ) : (
+              <Link
+                href="/signup"
+                className="mt-8 inline-block rounded-full bg-sky px-8 py-3 font-semibold text-white transition-colors hover:bg-navy"
+              >
+                Get started free
+              </Link>
+            )}
           </div>
         </section>
 

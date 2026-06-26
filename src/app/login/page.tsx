@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { signIn } from "@/lib/actions/auth";
+import { DEMO_MODE } from "@/lib/demo-mode";
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-steel/40 px-3 py-2 text-navy outline-none focus:border-sky focus:ring-1 focus:ring-sky";
@@ -22,8 +23,18 @@ export default async function LoginPage({
           </span>
         </Link>
 
-        <h1 className="mt-6 text-2xl font-bold text-navy">Welcome back</h1>
-        <p className="mt-2 text-sm text-steel">Sign in to your church dashboard.</p>
+        <h1 className="mt-6 text-2xl font-bold text-navy">
+          {DEMO_MODE ? "Demo Mode Active" : "Welcome back"}
+        </h1>
+        <p className="mt-2 text-sm text-steel">
+          {DEMO_MODE ? "This is a read-only preview. Sign in is disabled." : "Sign in to your church dashboard."}
+        </p>
+
+        {DEMO_MODE && (
+          <div className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            To access your dashboard, please use the production site.
+          </div>
+        )}
 
         {message && (
           <p className="mt-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">{message}</p>
@@ -32,27 +43,38 @@ export default async function LoginPage({
           <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
         )}
 
-        <form action={signIn} className="mt-6 flex flex-col gap-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-deep">Email</label>
-            <input id="email" name="email" type="email" required className={inputClass} />
+        {DEMO_MODE ? (
+          <div className="mt-6 space-y-3 text-center">
+            <p className="text-sm text-steel">Viewing features in read-only mode</p>
+            <Link href="/" className="inline-block rounded-lg bg-sky px-6 py-2 text-sm font-medium text-white hover:bg-deep">
+              Back to home
+            </Link>
           </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-deep">Password</label>
-            <input id="password" name="password" type="password" required className={inputClass} />
-          </div>
-          <button
-            type="submit"
-            className="mt-2 h-11 rounded-lg bg-sky font-medium text-white transition-colors hover:bg-deep"
-          >
-            Sign in
-          </button>
-        </form>
+        ) : (
+          <>
+            <form action={signIn} className="mt-6 flex flex-col gap-4">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-deep">Email</label>
+                <input id="email" name="email" type="email" required className={inputClass} />
+              </div>
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-deep">Password</label>
+                <input id="password" name="password" type="password" required className={inputClass} />
+              </div>
+              <button
+                type="submit"
+                className="mt-2 h-11 rounded-lg bg-sky font-medium text-white transition-colors hover:bg-deep"
+              >
+                Sign in
+              </button>
+            </form>
 
-        <p className="mt-6 text-center text-sm text-steel">
-          New here?{" "}
-          <Link href="/signup" className="font-medium text-sky hover:underline">Create an account</Link>
-        </p>
+            <p className="mt-6 text-center text-sm text-steel">
+              New here?{" "}
+              <Link href="/signup" className="font-medium text-sky hover:underline">Create an account</Link>
+            </p>
+          </>
+        )}
       </div>
     </main>
   );
