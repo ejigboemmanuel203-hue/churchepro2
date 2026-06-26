@@ -1,26 +1,21 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================
+   Churchepro brand palette (from the provided color board)
+   ============================================================ */
+@theme {
+  --color-ice: #e3f2fd; /* lightest blue - section backgrounds */
+  --color-steel: #5f8299; /* muted slate-blue accent */
+  --color-deep: #2a5680; /* primary deep blue */
+  --color-sky: #29a3e5; /* bright accent / buttons */
+  --color-navy: #1e2d3f; /* text + dark sections */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: var(--color-navy);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }

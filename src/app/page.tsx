@@ -1,65 +1,162 @@
-import Image from "next/image";
+import Link from "next/link";
+import { SiteHeader } from "@/components/site-header";
+import { HeroSlideshow } from "@/components/hero-slideshow";
+
+const features = [
+  { icon: "🗓️", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
+  { icon: "🤝", title: "Follow-up", desc: "Stay in touch with members and first-time visitors." },
+  { icon: "📖", title: "Daily Devotion", desc: "Share a daily devotion guide your members can read anywhere." },
+  { icon: "✨", title: "AI Bible Quiz", desc: "Engage members with AI-powered Bible knowledge quizzes." },
+];
+
+const steps = [
+  {
+    title: "Sign up",
+    desc: "Create your free account in under a minute — just your name, email, and a password.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7">
+        <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    title: "Create your church",
+    desc: "Give your church a name and you instantly get a private, secure space just for it.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7">
+        <path d="M12 3 4 7v13h16V7l-8-4Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M9 21v-6h6v6" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M12 7v3M10.5 8.5h3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    title: "Start managing",
+    desc: "Record attendance, follow up with members, post devotions, and more — all in one place.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7">
+        <path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M8 13l2.5 2.5L16 10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+];
 
 export default function Home() {
+  const year = new Date().getFullYear();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <>
+      <SiteHeader />
+
+      <main className="flex-1">
+        {/* Hero */}
+        <section className="relative isolate overflow-hidden">
+          <HeroSlideshow />
+          <div className="absolute inset-0 bg-navy/75" />
+          <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 py-28 text-center text-white sm:py-36">
+            <span className="mb-5 rounded-full bg-sky px-4 py-1 text-sm font-medium">
+              Church management made simple
+            </span>
+            <h1 className="text-4xl font-bold leading-tight sm:text-6xl">
+              Run your church with Churchepro
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-ice">
+              Attendance, follow-up, daily devotions, AI Bible quizzes and more —
+              each church in its own private, secure space.
+            </p>
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/signup"
+                className="rounded-full bg-sky px-8 py-3 font-semibold text-white transition-colors hover:bg-deep"
+              >
+                Get started free
+              </Link>
+              <Link
+                href="/login"
+                className="rounded-full border border-white/70 px-8 py-3 font-semibold text-white transition-colors hover:bg-white/10"
+              >
+                Sign in
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section className="bg-white py-20">
+          <div className="mx-auto max-w-6xl px-6">
+            <h2 className="text-center text-3xl font-bold text-navy">
+              How it works
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-center text-steel">
+              Get your church up and running in three simple steps.
+            </p>
+            <div className="relative mt-14 grid gap-10 sm:grid-cols-3">
+              {/* connecting line (desktop only) */}
+              <div className="absolute top-7 left-0 right-0 hidden h-0.5 bg-ice sm:block" aria-hidden="true" />
+              {steps.map((s, i) => (
+                <div key={s.title} className="relative flex flex-col items-center text-center">
+                  <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-sky text-white shadow-sm">
+                    {s.icon}
+                  </div>
+                  <span className="mt-4 text-xs font-semibold uppercase tracking-wide text-steel">
+                    Step {i + 1}
+                  </span>
+                  <h3 className="mt-1 font-semibold text-navy">{s.title}</h3>
+                  <p className="mt-2 max-w-xs text-sm text-steel">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Features */}
+        <section className="bg-ice py-20">
+          <div className="mx-auto max-w-6xl px-6">
+            <h2 className="text-center text-3xl font-bold text-navy">
+              Everything your church needs
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-center text-steel">
+              One simple platform for the people and programs you serve.
+            </p>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {features.map((f) => (
+                <div
+                  key={f.title}
+                  className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
+                >
+                  <div className="text-3xl">{f.icon}</div>
+                  <h3 className="mt-4 font-semibold text-deep">{f.title}</h3>
+                  <p className="mt-2 text-sm text-steel">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="bg-deep py-16">
+          <div className="mx-auto max-w-3xl px-6 text-center">
+            <h2 className="text-3xl font-bold text-white">
+              Ready to get started?
+            </h2>
+            <p className="mt-3 text-ice">
+              Create your church&apos;s account in under two minutes.
+            </p>
+            <Link
+              href="/signup"
+              className="mt-8 inline-block rounded-full bg-sky px-8 py-3 font-semibold text-white transition-colors hover:bg-navy"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+              Get started free
+            </Link>
+          </div>
+        </section>
+
+        <footer className="bg-navy py-8 text-center text-sm text-ice">
+          © {year} Churchepro. All rights reserved.
+        </footer>
       </main>
-    </div>
+    </>
   );
 }
