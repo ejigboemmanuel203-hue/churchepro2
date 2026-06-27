@@ -1,14 +1,18 @@
 import { BEGINNER_QUESTIONS } from "./beginner";
 import { INTERMEDIATE_QUESTIONS } from "./intermediate";
+import { ADVANCED_QUESTIONS } from "./advanced";
 import type { DifficultyKey, QuizQuestion } from "./types";
 
-// Question banks per difficulty. Advanced is not populated yet;
-// mixed blends across all available levels.
+// Question banks per difficulty. Mixed blends across all levels.
 const BANKS: Record<DifficultyKey, QuizQuestion[]> = {
   beginner: BEGINNER_QUESTIONS,
   intermediate: INTERMEDIATE_QUESTIONS,
-  advanced: [],
-  mixed: [...BEGINNER_QUESTIONS, ...INTERMEDIATE_QUESTIONS],
+  advanced: ADVANCED_QUESTIONS,
+  mixed: [
+    ...BEGINNER_QUESTIONS,
+    ...INTERMEDIATE_QUESTIONS,
+    ...ADVANCED_QUESTIONS,
+  ],
 };
 
 export function getBank(difficulty: DifficultyKey): QuizQuestion[] {

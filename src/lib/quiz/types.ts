@@ -19,8 +19,8 @@ export const DIFFICULTIES: {
 }[] = [
   { key: "beginner", label: "Beginner", desc: "Foundational stories everyone knows.", ready: true },
   { key: "intermediate", label: "Intermediate", desc: "Kings, prophets, parables & Paul.", ready: true },
-  { key: "advanced", label: "Advanced", desc: "Deep cuts for Bible scholars.", ready: false },
-  { key: "mixed", label: "Mixed", desc: "A blend across all levels.", ready: false },
+  { key: "advanced", label: "Advanced", desc: "Minor prophets, theology & more.", ready: true },
+  { key: "mixed", label: "Mixed", desc: "A blend across all levels.", ready: true },
 ];
 
 export const QUESTION_COUNTS = [10, 20, 30];
