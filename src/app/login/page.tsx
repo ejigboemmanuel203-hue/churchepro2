@@ -18,7 +18,7 @@ export default async function LoginPage({
       {/* Left: image (hidden on small screens) */}
       <div className="relative hidden w-1/2 lg:block">
         <Image
-          src="/login-side.webp"
+          src="/login-side.png"
           alt="Pastor and church members smiling together"
           fill
           priority

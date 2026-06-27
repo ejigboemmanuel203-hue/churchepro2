@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createChurch } from "@/lib/actions/church";
 import { signOut } from "@/lib/actions/auth";
+import { DepartmentSelect } from "./department-select";
 
 export default async function DashboardPage({
   searchParams,
@@ -20,12 +21,16 @@ export default async function DashboardPage({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("full_name, role, church_id, churches(name)")
+    .select("full_name, role, church_id, ministry_role, churches(name)")
     .eq("id", user.id)
     .single();
 
   const churchName =
     (profile?.churches as { name?: string } | null)?.name ?? null;
+  const ministryRole = (profile?.ministry_role as string | null) ?? null;
+  // Once a user has a church but hasn't picked their department yet,
+  // prompt them to choose before showing the dashboard.
+  const needsDepartment = !!churchName && !ministryRole;
 
   return (
     <main className="flex flex-1 flex-col bg-ice">
@@ -76,11 +81,14 @@ export default async function DashboardPage({
               </button>
             </form>
           </div>
+        ) : needsDepartment ? (
+          <DepartmentSelect churchName={churchName!} />
         ) : (
           <>
             <h1 className="text-2xl font-bold text-navy">{churchName}</h1>
             <p className="mt-1 text-steel">
-              Signed in as {profile?.full_name || user.email} ({profile?.role})
+              Signed in as {profile?.full_name || user.email} ({profile?.role}
+              {ministryRole ? ` · ${ministryRole}` : ""})
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
