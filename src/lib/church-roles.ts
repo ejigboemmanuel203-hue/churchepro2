@@ -5,6 +5,7 @@
 export const OTHER_ROLE = "Others (specify)";
 
 export const CHURCH_ROLES: string[] = [
+  "Member",
   "Pastor",
   "Associate Pastor",
   "Prayer Coordinator / Intercessor",
