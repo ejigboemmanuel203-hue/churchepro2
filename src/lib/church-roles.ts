@@ -4,7 +4,8 @@
 
 export const OTHER_ROLE = "Others (specify)";
 
-export const CHURCH_ROLES: string[] = [
+// All selectable departments / ministries (kept unsorted here for easy editing).
+const ROLES = [
   "Member",
   "Pastor",
   "Associate Pastor",
@@ -51,5 +52,10 @@ export const CHURCH_ROLES: string[] = [
   "Welfare Officer",
   "Deacon / Deaconess",
   "Elder",
+];
+
+// Shown in the dropdown: departments A→Z, with "Others (specify)" always last.
+export const CHURCH_ROLES: string[] = [
+  ...ROLES.sort((a, b) => a.localeCompare(b)),
   OTHER_ROLE,
 ];
