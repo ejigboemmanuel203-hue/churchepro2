@@ -11,10 +11,10 @@ export function DepartmentSelect({ churchName }: { churchName: string }) {
 
   return (
     <div className="mx-auto w-full max-w-lg rounded-2xl bg-white p-8 shadow-sm ring-1 ring-black/5">
-      <h1 className="text-2xl font-bold text-navy">Where do you serve?</h1>
+      <h1 className="text-2xl font-bold text-navy">What&apos;s your role at church?</h1>
       <p className="mt-2 text-steel">
         Welcome to {churchName}! Let your church know which department or ministry
-        you&apos;re part of. Choose the one that best describes how you serve.
+        you&apos;re part of. Choose the one that best describes your role.
       </p>
 
       <form action={setMinistryRole} className="mt-6 space-y-4">
