@@ -42,7 +42,6 @@ const ROLES = [
   "Photographer",
   "Videographer",
   "Sound Engineer",
-  "Camera Operator",
   "IT Officer",
   "Security Officer",
   "Driver / Transport Officer",
