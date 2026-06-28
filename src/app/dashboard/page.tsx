@@ -94,6 +94,7 @@ export default async function DashboardPage({
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <FeatureCard title="Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" />
               <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" />
+              <FeatureCard title="Sermons" desc="Listen to & download sermon messages." href="/dashboard/sermons" />
               <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon />
               <FeatureCard title="AI Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" />
             </div>
