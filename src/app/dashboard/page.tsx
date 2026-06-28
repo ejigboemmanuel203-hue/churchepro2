@@ -95,6 +95,7 @@ export default async function DashboardPage({
               <FeatureCard title="Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" />
               <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" />
               <FeatureCard title="Sermons" desc="Listen to & download sermon messages." href="/dashboard/sermons" />
+              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" />
               <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon />
               <FeatureCard title="AI Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" />
             </div>
