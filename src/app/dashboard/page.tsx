@@ -136,7 +136,7 @@ function FeatureCard({
     return (
       <Link
         href={href}
-        className="block rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition-colors hover:ring-sky"
+        className="block rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/15 hover:ring-sky"
       >
         {inner}
       </Link>

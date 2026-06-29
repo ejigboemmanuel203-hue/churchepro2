@@ -107,7 +107,7 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section className="bg-white py-20">
+        <section className="bg-gradient-to-b from-white to-ice/40 py-20">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
               <h2 className="text-center font-display text-3xl font-bold text-navy">
@@ -137,7 +137,7 @@ export default function Home() {
         </section>
 
         {/* Features */}
-        <section className="bg-ice py-20">
+        <section className="bg-gradient-to-b from-ice/40 to-white py-20">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
               <h2 className="text-center font-display text-3xl font-bold text-navy">
@@ -149,14 +149,12 @@ export default function Home() {
             </Reveal>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {features.map((f, i) => (
-                <Reveal
-                  key={f.title}
-                  delay={i * 120}
-                  className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
-                >
-                  <div className="flex h-11 items-center text-3xl">{f.node ?? f.icon}</div>
-                  <h3 className="mt-4 font-semibold text-deep">{f.title}</h3>
-                  <p className="mt-2 text-sm text-steel">{f.desc}</p>
+                <Reveal key={f.title} delay={i * 120} className="h-full">
+                  <div className="group h-full rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/15 hover:ring-sky">
+                    <div className="flex h-11 items-center text-3xl">{f.node ?? f.icon}</div>
+                    <h3 className="mt-4 font-semibold text-deep">{f.title}</h3>
+                    <p className="mt-2 text-sm text-steel">{f.desc}</p>
+                  </div>
                 </Reveal>
               ))}
             </div>
@@ -164,7 +162,7 @@ export default function Home() {
         </section>
 
         {/* CTA */}
-        <section className="bg-deep py-16">
+        <section className="bg-gradient-to-br from-deep to-sky py-16">
           <Reveal className="mx-auto max-w-3xl px-6 text-center">
             <h2 className="font-display text-3xl font-bold text-white">
               {DEMO_MODE ? "Demo Mode" : "Ready to get started?"}
