@@ -69,10 +69,10 @@ export default function Home() {
             <span className="mb-5 rounded-full bg-sky px-4 py-1 text-sm font-medium">
               Church management made simple
             </span>
-            <h1 className="text-4xl font-bold leading-tight sm:text-6xl">
+            <h1 className="font-display text-4xl font-bold leading-tight text-shadow-soft sm:text-6xl">
               Run your church with Churchepro
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-ice">
+            <p className="mt-6 max-w-xl text-lg font-medium text-ice text-shadow-soft">
               Attendance, follow-up, daily devotions, AI Bible quizzes and more —
               each church in its own private, secure space.
             </p>
@@ -110,7 +110,7 @@ export default function Home() {
         <section className="bg-white py-20">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
-              <h2 className="text-center text-3xl font-bold text-navy">
+              <h2 className="text-center font-display text-3xl font-bold text-navy">
                 How it works
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-center text-steel">
@@ -140,7 +140,7 @@ export default function Home() {
         <section className="bg-ice py-20">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
-              <h2 className="text-center text-3xl font-bold text-navy">
+              <h2 className="text-center font-display text-3xl font-bold text-navy">
                 Everything your church needs
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-center text-steel">
@@ -166,7 +166,7 @@ export default function Home() {
         {/* CTA */}
         <section className="bg-deep py-16">
           <Reveal className="mx-auto max-w-3xl px-6 text-center">
-            <h2 className="text-3xl font-bold text-white">
+            <h2 className="font-display text-3xl font-bold text-white">
               {DEMO_MODE ? "Demo Mode" : "Ready to get started?"}
             </h2>
             <p className="mt-3 text-ice">
