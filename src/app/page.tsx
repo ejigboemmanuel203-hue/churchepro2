@@ -15,6 +15,8 @@ const features: {
 }[] = [
   { icon: "🗓️", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
   { icon: "🤝", title: "Follow-up", desc: "Stay in touch with members and first-time visitors." },
+  { icon: "🎙️", title: "Sermons", desc: "Share sermon messages members can listen to and download." },
+  { icon: "🙏", title: "Prayer Requests", desc: "Let members send anonymous requests to the prayer team." },
   { node: <FlipBook />, title: "Daily Devotion", desc: "Share a daily devotion guide your members can read anywhere." },
   { icon: "✨", title: "Bible Quiz", desc: "Engage members with fun Bible knowledge quizzes." },
 ];
@@ -147,7 +149,7 @@ export default function Home() {
                 One simple platform for the people and programs you serve.
               </p>
             </Reveal>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((f, i) => (
                 <Reveal key={f.title} delay={i * 120} className="h-full">
                   <div className="group h-full rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/15 hover:ring-sky">
