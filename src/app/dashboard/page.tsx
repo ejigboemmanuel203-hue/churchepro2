@@ -92,12 +92,12 @@ export default async function DashboardPage({
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <FeatureCard title="Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" />
-              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" />
-              <FeatureCard title="Sermons" desc="Listen to & download sermon messages." href="/dashboard/sermons" />
-              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" />
-              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon />
-              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" />
+              <FeatureCard title="Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" />
+              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="bg-deep" />
+              <FeatureCard title="Sermons" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="bg-steel" />
+              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
+              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
+              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="bg-sky" />
             </div>
           </>
         )}
@@ -106,29 +106,73 @@ export default async function DashboardPage({
   );
 }
 
+const iconClass = "h-5 w-5";
+const ICONS = {
+  attendance: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <path d="M7 3v3M17 3v3M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1ZM4 9h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  followup: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <path d="M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 19c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M16 5.3a3 3 0 0 1 0 5.8M21 19c0-2.2-1.2-4-3-4.6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  sermons: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <rect x="9" y="3" width="6" height="11" rx="3" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  prayer: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  devotion: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <path d="M12 6c-2-1.3-4.6-1.5-7-1v12c2.4-.5 5-.3 7 1 2-1.3 4.6-1.5 7-1V5c-2.4-.5-5-.3-7 1ZM12 6v13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  quiz: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3ZM18 14.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8.8-1.9Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+};
+
 function FeatureCard({
   title,
   desc,
   soon,
   href,
+  icon,
+  accent,
 }: {
   title: string;
   desc: string;
   soon?: boolean;
   href?: string;
+  icon: React.ReactNode;
+  accent: string;
 }) {
   const inner = (
     <>
-      <div className="flex items-center justify-between">
-        <h2 className="font-semibold text-deep">{title}</h2>
-        {soon && (
+      <div className="flex items-start justify-between">
+        <div className={`flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-sm ${accent}`}>
+          {icon}
+        </div>
+        {soon ? (
           <span className="rounded-full bg-ice px-2 py-0.5 text-xs text-steel">
             Coming soon
           </span>
+        ) : (
+          href && <span className="text-lg text-sky">→</span>
         )}
-        {href && <span className="text-sky">→</span>}
       </div>
-      <p className="mt-2 text-sm text-steel">{desc}</p>
+      <h2 className="mt-4 font-semibold text-deep">{title}</h2>
+      <p className="mt-1 text-sm text-steel">{desc}</p>
     </>
   );
 
