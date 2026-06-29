@@ -16,7 +16,7 @@ const features: {
   { icon: "🗓️", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
   { icon: "🤝", title: "Follow-up", desc: "Stay in touch with members and first-time visitors." },
   { node: <FlipBook />, title: "Daily Devotion", desc: "Share a daily devotion guide your members can read anywhere." },
-  { icon: "✨", title: "AI Bible Quiz", desc: "Engage members with AI-powered Bible knowledge quizzes." },
+  { icon: "✨", title: "Bible Quiz", desc: "Engage members with fun Bible knowledge quizzes." },
 ];
 
 const steps = [

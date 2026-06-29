@@ -17,7 +17,7 @@ export const DIFFICULTIES: {
   desc: string;
   ready: boolean;
 }[] = [
-  { key: "beginner", label: "Beginner", desc: "Foundational stories everyone knows.", ready: true },
+  { key: "beginner", label: "Easy", desc: "Foundational stories everyone knows.", ready: true },
   { key: "intermediate", label: "Intermediate", desc: "Kings, prophets, parables & Paul.", ready: true },
   { key: "advanced", label: "Advanced", desc: "Minor prophets, theology & more.", ready: true },
   { key: "mixed", label: "Mixed", desc: "A blend across all levels.", ready: true },

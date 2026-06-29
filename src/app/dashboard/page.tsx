@@ -40,7 +40,7 @@ export default async function DashboardPage({
           <Image src="/logo.png" alt="Churchepro" width={36} height={36} className="h-9 w-9 object-contain" />
           <span className="font-bold text-navy">
             {churchName ?? (
-              <>Churche<span className="text-sky">pro</span></>
+              <>Church<span className="text-sky">epro</span></>
             )}
           </span>
         </Link>
@@ -97,7 +97,7 @@ export default async function DashboardPage({
               <FeatureCard title="Sermons" desc="Listen to & download sermon messages." href="/dashboard/sermons" />
               <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" />
               <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon />
-              <FeatureCard title="AI Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" />
+              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" />
             </div>
           </>
         )}

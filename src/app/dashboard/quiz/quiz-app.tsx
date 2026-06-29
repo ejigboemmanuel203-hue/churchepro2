@@ -59,7 +59,7 @@ export function QuizApp() {
     return (
       <div className="mx-auto w-full max-w-2xl">
         <div className="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-black/5">
-          <h1 className="text-2xl font-bold text-navy">AI Bible Quiz</h1>
+          <h1 className="text-2xl font-bold text-navy">Bible Quiz</h1>
           <p className="mt-2 text-steel">
             Test your Bible knowledge. Pick a level and how many questions you
             want, then begin.
@@ -145,7 +145,7 @@ export function QuizApp() {
             <span>
               Question {current + 1} of {questions.length}
             </span>
-            <span className="capitalize">{difficulty}</span>
+            <span>{DIFFICULTIES.find((d) => d.key === difficulty)?.label ?? difficulty}</span>
           </div>
           <div className="mt-2 h-2 overflow-hidden rounded-full bg-ice">
             <div

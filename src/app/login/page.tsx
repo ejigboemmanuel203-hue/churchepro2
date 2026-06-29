@@ -34,7 +34,7 @@ export default async function LoginPage({
           <Link href="/" className="flex items-center justify-center gap-2">
             <Image src="/logo.png" alt="Churchepro" width={40} height={40} className="h-10 w-10 object-contain" />
             <span className="text-xl font-bold text-navy">
-              Churche<span className="text-sky">pro</span>
+              Church<span className="text-sky">epro</span>
             </span>
           </Link>
 

@@ -19,7 +19,7 @@ export default async function QuizPage() {
             Dashboard
           </Link>
           <span className="text-steel">/</span>
-          <span className="font-semibold text-navy">AI Bible Quiz</span>
+          <span className="font-semibold text-navy">Bible Quiz</span>
         </div>
       </header>
 

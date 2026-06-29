@@ -16,7 +16,7 @@ export function SiteHeader() {
             priority
           />
           <span className="truncate text-base font-bold whitespace-nowrap text-navy sm:text-xl">
-            Churche<span className="text-sky">pro</span>
+            Church<span className="text-sky">epro</span>
           </span>
         </Link>
         <nav className="flex shrink-0 items-center gap-2 sm:gap-4">
