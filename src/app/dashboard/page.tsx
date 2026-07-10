@@ -3,8 +3,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createChurch } from "@/lib/actions/church";
-import { signOut } from "@/lib/actions/auth";
 import { DepartmentSelect } from "./department-select";
+import { AccountPanel } from "@/components/account-panel";
 
 export default async function DashboardPage({
   searchParams,
@@ -21,7 +21,7 @@ export default async function DashboardPage({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("full_name, role, church_id, ministry_role, churches(name)")
+    .select("full_name, role, church_id, ministry_role, avatar_url, churches(name)")
     .eq("id", user.id)
     .single();
 
@@ -44,11 +44,12 @@ export default async function DashboardPage({
             )}
           </span>
         </Link>
-        <form action={signOut}>
-          <button className="text-sm font-medium text-steel transition-colors hover:text-navy">
-            Sign out
-          </button>
-        </form>
+        <AccountPanel
+          name={(profile?.full_name as string) || ""}
+          email={user.email || ""}
+          avatarUrl={(profile?.avatar_url as string) || null}
+          userId={user.id}
+        />
       </header>
 
       <div className="mx-auto w-full max-w-4xl px-6 py-10">

@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { Reveal } from "@/components/reveal";
 import { DEMO_MODE } from "@/lib/demo-mode";
+import { MISSION, VISION } from "@/lib/about";
 
 const features: { image: string; title: string; desc: string }[] = [
   { image: "/card-attendance.jpg", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
@@ -166,6 +167,51 @@ export default function Home() {
                   </div>
                 </Reveal>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Mission & Vision */}
+        <section className="bg-gradient-to-b from-white to-ice/50 py-20">
+          <div className="mx-auto max-w-5xl px-6">
+            <Reveal>
+              <h2 className="text-center font-display text-3xl font-bold text-navy">
+                Our heart
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-center text-steel">
+                Why Churchepro exists.
+              </p>
+            </Reveal>
+            <div className="mt-12 grid gap-8 md:grid-cols-2">
+              <Reveal className="h-full">
+                <div className="flex h-full flex-col rounded-3xl bg-white p-8 shadow-sm ring-1 ring-black/5">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky text-white shadow-sm">
+                    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
+                      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.8" />
+                      <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.8" />
+                      <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    </svg>
+                  </span>
+                  <h3 className="mt-5 font-display text-2xl font-bold text-navy">
+                    Our Mission
+                  </h3>
+                  <p className="mt-3 leading-relaxed text-steel">{MISSION}</p>
+                </div>
+              </Reveal>
+              <Reveal delay={120} className="h-full">
+                <div className="flex h-full flex-col rounded-3xl bg-white p-8 shadow-sm ring-1 ring-black/5">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-deep text-white shadow-sm">
+                    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
+                      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
+                    </svg>
+                  </span>
+                  <h3 className="mt-5 font-display text-2xl font-bold text-navy">
+                    Our Vision
+                  </h3>
+                  <p className="mt-3 leading-relaxed text-steel">{VISION}</p>
+                </div>
+              </Reveal>
             </div>
           </div>
         </section>
