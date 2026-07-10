@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createChurch } from "@/lib/actions/church";
 import { DepartmentSelect } from "./department-select";
 import { AccountPanel } from "@/components/account-panel";
+import { VerseWidget } from "@/components/verse-widget";
 
 export default async function DashboardPage({
   searchParams,
@@ -86,11 +87,16 @@ export default async function DashboardPage({
           <DepartmentSelect churchName={churchName!} />
         ) : (
           <>
-            <h1 className="text-2xl font-bold text-navy">{churchName}</h1>
-            <p className="mt-1 text-steel">
-              Signed in as {profile?.full_name || user.email} ({profile?.role}
-              {ministryRole ? ` · ${ministryRole}` : ""})
-            </p>
+            <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-navy">{churchName}</h1>
+                <p className="mt-1 text-steel">
+                  Signed in as {profile?.full_name || user.email} ({profile?.role}
+                  {ministryRole ? ` · ${ministryRole}` : ""})
+                </p>
+              </div>
+              <VerseWidget />
+            </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <FeatureCard title="Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" />

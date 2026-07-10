@@ -105,7 +105,7 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section className="bg-gradient-to-b from-white to-ice/40 py-20">
+        <section className="bg-gradient-to-b from-white to-ice/60 py-20">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
               <h2 className="text-center font-display text-3xl font-bold text-navy">
@@ -135,7 +135,7 @@ export default function Home() {
         </section>
 
         {/* Features */}
-        <section className="bg-gradient-to-b from-ice/40 to-white py-20">
+        <section className="bg-gradient-to-b from-ice/60 to-ice/30 py-20">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
               <h2 className="text-center font-display text-3xl font-bold text-navy">
@@ -172,7 +172,7 @@ export default function Home() {
         </section>
 
         {/* Mission & Vision */}
-        <section className="bg-gradient-to-b from-white to-ice/50 py-20">
+        <section className="bg-gradient-to-b from-ice/30 to-ice/60 py-20">
           <div className="mx-auto max-w-5xl px-6">
             <Reveal>
               <h2 className="text-center font-display text-3xl font-bold text-navy">
