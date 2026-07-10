@@ -91,13 +91,13 @@ export default async function DashboardPage({
               {ministryRole ? ` · ${ministryRole}` : ""})
             </p>
 
-            <div className="mt-8 space-y-4">
-              <FeatureCard title="Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" image="/card-attendance.jpg" />
-              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="bg-deep" image="/login-side.png" />
-              <FeatureCard title="Sermons" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="bg-steel" image="/hero-3.jpg" />
-              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" image="/hero-2.jpg" />
-              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" image="/card-devotion.jpg" />
-              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="bg-sky" image="/card-quiz.jpg" />
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <FeatureCard title="Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" />
+              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="bg-deep" />
+              <FeatureCard title="Sermons" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="bg-steel" />
+              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
+              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
+              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="bg-sky" />
             </div>
           </>
         )}
@@ -149,7 +149,6 @@ function FeatureCard({
   href,
   icon,
   accent,
-  image,
 }: {
   title: string;
   desc: string;
@@ -157,56 +156,38 @@ function FeatureCard({
   href?: string;
   icon: React.ReactNode;
   accent: string;
-  image: string;
 }) {
   const inner = (
     <>
-      {/* Text side */}
-      <div className="flex min-h-32 flex-1 flex-col justify-center p-6">
-        <div className="flex items-center gap-3">
-          <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-sm ${accent}`}>
-            {icon}
-          </div>
-          <h2 className="text-lg font-semibold text-deep">{title}</h2>
-          {soon && (
-            <span className="rounded-full bg-ice px-2 py-0.5 text-xs text-steel">
-              Coming soon
-            </span>
-          )}
+      <div className="flex items-start justify-between">
+        <div className={`flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-sm ${accent}`}>
+          {icon}
         </div>
-        <p className="mt-2 text-sm text-steel">{desc}</p>
-        {href && (
-          <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-sky">
-            Open <span aria-hidden>→</span>
+        {soon ? (
+          <span className="rounded-full bg-ice px-2 py-0.5 text-xs text-steel">
+            Coming soon
           </span>
+        ) : (
+          href && <span className="text-lg text-sky">→</span>
         )}
       </div>
-      {/* Photo side */}
-      <div className="relative w-28 shrink-0 sm:w-56">
-        <Image
-          src={image}
-          alt=""
-          fill
-          sizes="(max-width: 640px) 7rem, 14rem"
-          className="object-cover"
-        />
-      </div>
+      <h2 className="mt-4 font-semibold text-deep">{title}</h2>
+      <p className="mt-1 text-sm text-steel">{desc}</p>
     </>
   );
-
-  const base =
-    "group flex overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5";
 
   if (href) {
     return (
       <Link
         href={href}
-        className={`${base} transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/15 hover:ring-sky`}
+        className="block rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/15 hover:ring-sky"
       >
         {inner}
       </Link>
     );
   }
 
-  return <div className={base}>{inner}</div>;
+  return (
+    <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">{inner}</div>
+  );
 }

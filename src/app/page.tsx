@@ -1,24 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { Reveal } from "@/components/reveal";
-import { FlipBook } from "@/components/flip-book";
 import { DEMO_MODE } from "@/lib/demo-mode";
 
-const features: {
-  icon?: string;
-  node?: React.ReactNode;
-  title: string;
-  desc: string;
-}[] = [
-  { icon: "🗓️", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
-  { icon: "🤝", title: "Follow-up", desc: "Stay in touch with members and first-time visitors." },
-  { icon: "🎙️", title: "Sermons", desc: "Share sermon messages members can listen to and download." },
-  { icon: "🙏", title: "Prayer Requests", desc: "Let members send anonymous requests to the prayer team." },
-  { node: <FlipBook />, title: "Daily Devotion", desc: "Share a daily devotion guide your members can read anywhere." },
-  { icon: "✨", title: "Bible Quiz", desc: "Engage members with fun Bible knowledge quizzes." },
+const features: { image: string; title: string; desc: string }[] = [
+  { image: "/card-attendance.jpg", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
+  { image: "/login-side.png", title: "Follow-up", desc: "Stay in touch with members and first-time visitors." },
+  { image: "/hero-3.jpg", title: "Sermons", desc: "Share sermon messages members can listen to and download." },
+  { image: "/card-prayer.jpg", title: "Prayer Requests", desc: "Let members send anonymous requests to the prayer team." },
+  { image: "/card-devotion.jpg", title: "Daily Devotion", desc: "Share a daily devotion guide your members can read anywhere." },
+  { image: "/card-quiz.jpg", title: "Bible Quiz", desc: "Engage members with fun Bible knowledge quizzes." },
 ];
 
 const steps = [
@@ -72,7 +67,7 @@ export default function Home() {
               Church management made simple
             </span>
             <h1 className="font-display text-4xl font-bold leading-tight text-shadow-soft sm:text-6xl">
-              Run your church with Churchepro
+              Run your church with <span className="text-sky">Churchepro</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg font-medium text-ice text-shadow-soft">
               Attendance, follow-up, daily devotions, AI Bible quizzes and more —
@@ -149,13 +144,25 @@ export default function Home() {
                 One simple platform for the people and programs you serve.
               </p>
             </Reveal>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mx-auto mt-12 grid max-w-4xl gap-8 sm:grid-cols-2">
               {features.map((f, i) => (
-                <Reveal key={f.title} delay={i * 120} className="h-full">
-                  <div className="group h-full rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/15 hover:ring-sky">
-                    <div className="flex h-11 items-center text-3xl">{f.node ?? f.icon}</div>
-                    <h3 className="mt-4 font-semibold text-deep">{f.title}</h3>
-                    <p className="mt-2 text-sm text-steel">{f.desc}</p>
+                <Reveal key={f.title} delay={(i % 2) * 120} className="h-full">
+                  <div className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-sky/15 hover:ring-sky">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden">
+                      <Image
+                        src={f.image}
+                        alt={f.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 22rem"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col p-7">
+                      <h3 className="font-display text-2xl font-bold tracking-tight text-navy">
+                        {f.title}
+                      </h3>
+                      <p className="mt-2 leading-relaxed text-steel">{f.desc}</p>
+                    </div>
                   </div>
                 </Reveal>
               ))}
