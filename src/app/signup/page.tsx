@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { signUp } from "@/lib/actions/auth";
 import { DEMO_MODE } from "@/lib/demo-mode";
+import { PasswordInput } from "@/components/password-input";
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-steel/40 px-3 py-2 text-navy outline-none focus:border-sky focus:ring-1 focus:ring-sky";
@@ -73,10 +74,8 @@ export default async function SignUpPage({
                 <label htmlFor="email" className="block text-sm font-medium text-deep">Email</label>
                 <input id="email" name="email" type="email" required className={inputClass} />
               </div>
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-deep">Password</label>
-                <input id="password" name="password" type="password" required minLength={6} className={inputClass} />
-              </div>
+              <PasswordInput id="password" name="password" label="Password" minLength={6} />
+              <PasswordInput id="confirm" name="confirm" label="Confirm password" minLength={6} />
               <button
                 type="submit"
                 className="mt-2 h-11 rounded-lg bg-sky font-medium text-white transition-colors hover:bg-deep"
