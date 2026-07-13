@@ -28,7 +28,7 @@ export default async function AttendanceListPage({
         <div className="flex items-center gap-2 text-sm">
           <Link href="/dashboard" className="text-steel hover:text-navy">Dashboard</Link>
           <span className="text-steel">/</span>
-          <span className="font-semibold text-navy">Attendance</span>
+          <span className="font-semibold text-navy">Church Attendance</span>
         </div>
       </header>
 

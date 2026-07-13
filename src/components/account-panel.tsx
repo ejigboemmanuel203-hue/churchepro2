@@ -7,6 +7,8 @@ import { saveAvatarUrl, updatePassword } from "@/lib/actions/account";
 import { signOut } from "@/lib/actions/auth";
 import { MISSION, VISION } from "@/lib/about";
 
+type View = "menu" | "password" | "about";
+
 const inputClass =
   "mt-1 w-full rounded-lg border border-steel/40 px-3 py-2 text-navy outline-none focus:border-sky focus:ring-1 focus:ring-sky";
 
@@ -23,12 +25,19 @@ export function AccountPanel({
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [view, setView] = useState<View>("menu");
   const [avatar, setAvatar] = useState<string | null>(avatarUrl);
   const [avatarBusy, setAvatarBusy] = useState(false);
   const [pwBusy, setPwBusy] = useState(false);
   const [pwMsg, setPwMsg] = useState<{ ok?: boolean; error?: string | null } | null>(null);
 
   const initials = (name || email || "?").trim().charAt(0).toUpperCase();
+
+  function close() {
+    setOpen(false);
+    setView("menu");
+    setPwMsg(null);
+  }
 
   async function handleAvatar(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -83,6 +92,9 @@ export function AccountPanel({
       </span>
     );
 
+  const title =
+    view === "password" ? "Change password" : view === "about" ? "About Churchepro" : "Account";
+
   return (
     <>
       {/* Avatar button (top-right of header) */}
@@ -97,16 +109,22 @@ export function AccountPanel({
       {/* Slide-out panel */}
       {open && (
         <div className="fixed inset-0 z-50">
-          <div
-            className="absolute inset-0 bg-navy/40 backdrop-blur-sm"
-            onClick={() => setOpen(false)}
-          />
+          <div className="absolute inset-0 bg-navy/40 backdrop-blur-sm" onClick={close} />
           <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col overflow-y-auto bg-white shadow-2xl">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-steel/15 p-5">
-              <h2 className="font-display text-xl font-bold text-navy">Account</h2>
+            <div className="flex items-center gap-3 border-b border-steel/15 p-5">
+              {view !== "menu" && (
+                <button
+                  onClick={() => setView("menu")}
+                  aria-label="Back"
+                  className="text-xl leading-none text-steel hover:text-navy"
+                >
+                  ‹
+                </button>
+              )}
+              <h2 className="flex-1 font-display text-xl font-bold text-navy">{title}</h2>
               <button
-                onClick={() => setOpen(false)}
+                onClick={close}
                 aria-label="Close"
                 className="text-2xl leading-none text-steel hover:text-navy"
               >
@@ -114,40 +132,56 @@ export function AccountPanel({
               </button>
             </div>
 
-            <div className="flex-1 space-y-8 p-5">
-              {/* Profile picture */}
-              <section className="flex items-center gap-4">
-                <AvatarCircle size="h-16 w-16 text-xl" />
-                <div className="min-w-0">
-                  <p className="truncate font-semibold text-navy">{name || "Member"}</p>
-                  <p className="truncate text-sm text-steel">{email}</p>
-                  <label className="mt-2 inline-block cursor-pointer text-sm font-medium text-sky hover:text-deep">
-                    {avatarBusy ? "Uploading…" : "Change photo"}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAvatar}
-                      disabled={avatarBusy}
-                      className="hidden"
-                    />
-                  </label>
+            {/* ---- MENU ---- */}
+            {view === "menu" && (
+              <div className="flex flex-1 flex-col">
+                <div className="flex items-center gap-4 p-5">
+                  <AvatarCircle size="h-16 w-16 text-xl" />
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold text-navy">{name || "Member"}</p>
+                    <p className="truncate text-sm text-steel">{email}</p>
+                    <label className="mt-2 inline-block cursor-pointer text-sm font-medium text-sky hover:text-deep">
+                      {avatarBusy ? "Uploading…" : "Change photo"}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatar}
+                        disabled={avatarBusy}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 </div>
-              </section>
 
-              {/* Change password */}
-              <section>
-                <h3 className="font-semibold text-deep">Change password</h3>
+                <nav className="border-t border-steel/15">
+                  <MenuItem label="Change password" onClick={() => setView("password")} />
+                  <MenuItem label="About Churchepro" onClick={() => setView("about")} />
+                </nav>
+
+                <div className="mt-auto border-t border-steel/15 p-5">
+                  <form action={signOut}>
+                    <button className="h-11 w-full rounded-lg border border-red-200 font-medium text-red-600 transition-colors hover:bg-red-50">
+                      Sign out
+                    </button>
+                  </form>
+                </div>
+              </div>
+            )}
+
+            {/* ---- CHANGE PASSWORD ---- */}
+            {view === "password" && (
+              <div className="p-5">
                 {pwMsg?.ok && (
-                  <p className="mt-2 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
+                  <p className="mb-3 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
                     Password updated.
                   </p>
                 )}
                 {pwMsg?.error && (
-                  <p className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+                  <p className="mb-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
                     {pwMsg.error}
                   </p>
                 )}
-                <form onSubmit={handlePassword} className="mt-3 space-y-3">
+                <form onSubmit={handlePassword} className="space-y-3">
                   <div>
                     <label className="block text-sm text-steel">New password</label>
                     <input name="password" type="password" required minLength={6} className={inputClass} />
@@ -164,35 +198,37 @@ export function AccountPanel({
                     {pwBusy ? "Saving…" : "Update password"}
                   </button>
                 </form>
-              </section>
+              </div>
+            )}
 
-              {/* About */}
-              <section>
-                <h3 className="font-semibold text-deep">About Churchepro</h3>
-                <div className="mt-3 space-y-4">
-                  <div className="rounded-xl bg-ice/60 p-4">
-                    <p className="text-sm font-semibold text-navy">Our Mission</p>
-                    <p className="mt-1 text-sm leading-relaxed text-steel">{MISSION}</p>
-                  </div>
-                  <div className="rounded-xl bg-ice/60 p-4">
-                    <p className="text-sm font-semibold text-navy">Our Vision</p>
-                    <p className="mt-1 text-sm leading-relaxed text-steel">{VISION}</p>
-                  </div>
+            {/* ---- ABOUT ---- */}
+            {view === "about" && (
+              <div className="space-y-4 p-5">
+                <div className="rounded-xl bg-ice/60 p-4">
+                  <p className="text-sm font-semibold text-navy">Our Mission</p>
+                  <p className="mt-1 text-sm leading-relaxed text-steel">{MISSION}</p>
                 </div>
-              </section>
-            </div>
-
-            {/* Sign out */}
-            <div className="border-t border-steel/15 p-5">
-              <form action={signOut}>
-                <button className="h-11 w-full rounded-lg border border-red-200 font-medium text-red-600 transition-colors hover:bg-red-50">
-                  Sign out
-                </button>
-              </form>
-            </div>
+                <div className="rounded-xl bg-ice/60 p-4">
+                  <p className="text-sm font-semibold text-navy">Our Vision</p>
+                  <p className="mt-1 text-sm leading-relaxed text-steel">{VISION}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
     </>
+  );
+}
+
+function MenuItem({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex w-full items-center justify-between px-5 py-4 text-left text-navy transition-colors hover:bg-ice/50"
+    >
+      <span className="font-medium">{label}</span>
+      <span className="text-steel">›</span>
+    </button>
   );
 }

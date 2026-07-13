@@ -65,7 +65,7 @@ export default async function SheetDetailPage({
         <div className="flex items-center gap-2 text-sm">
           <Link href="/dashboard" className="text-steel hover:text-navy">Dashboard</Link>
           <span className="text-steel">/</span>
-          <Link href="/dashboard/attendance" className="text-steel hover:text-navy">Attendance</Link>
+          <Link href="/dashboard/attendance" className="text-steel hover:text-navy">Church Attendance</Link>
           <span className="text-steel">/</span>
           <span className="font-semibold text-navy">{sheet.title}</span>
         </div>

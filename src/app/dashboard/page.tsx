@@ -99,12 +99,12 @@ export default async function DashboardPage({
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <FeatureCard title="Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" />
-              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="bg-deep" />
-              <FeatureCard title="Sermons" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="bg-steel" />
-              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
-              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
-              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="bg-sky" />
+              <FeatureCard title="Church Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="from-sky to-deep" />
+              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="from-deep to-navy" />
+              <FeatureCard title="Sermons / Ministrations" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="from-steel to-deep" />
+              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="from-deep to-sky" />
+              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="from-steel to-navy" />
+              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="from-sky to-steel" />
             </div>
           </>
         )}
@@ -167,34 +167,34 @@ function FeatureCard({
   const inner = (
     <>
       <div className="flex items-start justify-between">
-        <div className={`flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-sm ${accent}`}>
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/25">
           {icon}
         </div>
         {soon ? (
-          <span className="rounded-full bg-ice px-2 py-0.5 text-xs text-steel">
+          <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-medium text-white">
             Coming soon
           </span>
         ) : (
-          href && <span className="text-lg text-sky">→</span>
+          href && <span className="text-lg text-white/90">→</span>
         )}
       </div>
-      <h2 className="mt-4 font-semibold text-deep">{title}</h2>
-      <p className="mt-1 text-sm text-steel">{desc}</p>
+      <h2 className="mt-4 font-semibold text-white">{title}</h2>
+      <p className="mt-1 text-sm text-white/80">{desc}</p>
     </>
   );
+
+  const base = `block rounded-2xl bg-gradient-to-br ${accent} p-6 text-white shadow-sm`;
 
   if (href) {
     return (
       <Link
         href={href}
-        className="block rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/15 hover:ring-sky"
+        className={`${base} transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:brightness-105`}
       >
         {inner}
       </Link>
     );
   }
 
-  return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">{inner}</div>
-  );
+  return <div className={base}>{inner}</div>;
 }

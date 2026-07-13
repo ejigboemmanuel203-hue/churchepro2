@@ -9,9 +9,9 @@ import { DEMO_MODE } from "@/lib/demo-mode";
 import { MISSION, VISION } from "@/lib/about";
 
 const features: { image: string; title: string; desc: string }[] = [
-  { image: "/card-attendance.jpg", title: "Attendance", desc: "Track who attends each service and spot trends over time." },
+  { image: "/card-attendance.jpg", title: "Church Attendance", desc: "Track who attends each service and spot trends over time." },
   { image: "/login-side.png", title: "Follow-up", desc: "Stay in touch with members and first-time visitors." },
-  { image: "/hero-3.jpg", title: "Sermons", desc: "Share sermon messages members can listen to and download." },
+  { image: "/hero-3.jpg", title: "Sermons / Ministrations", desc: "Share sermon messages members can listen to and download." },
   { image: "/card-prayer.jpg", title: "Prayer Requests", desc: "Let members send anonymous requests to the prayer team." },
   { image: "/card-devotion.jpg", title: "Daily Devotion", desc: "Share a daily devotion guide your members can read anywhere." },
   { image: "/card-quiz.jpg", title: "Bible Quiz", desc: "Engage members with fun Bible knowledge quizzes." },
@@ -184,32 +184,32 @@ export default function Home() {
             </Reveal>
             <div className="mt-12 grid gap-8 md:grid-cols-2">
               <Reveal className="h-full">
-                <div className="flex h-full flex-col rounded-3xl bg-white p-8 shadow-sm ring-1 ring-black/5">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky text-white shadow-sm">
+                <div className="flex h-full flex-col rounded-3xl bg-gradient-to-br from-sky to-deep p-8 text-white shadow-sm">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-white ring-1 ring-white/25">
                     <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
                       <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.8" />
                       <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.8" />
                       <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                     </svg>
                   </span>
-                  <h3 className="mt-5 font-display text-2xl font-bold text-navy">
+                  <h3 className="mt-5 font-display text-2xl font-bold text-white">
                     Our Mission
                   </h3>
-                  <p className="mt-3 leading-relaxed text-steel">{MISSION}</p>
+                  <p className="mt-3 leading-relaxed text-white/85">{MISSION}</p>
                 </div>
               </Reveal>
               <Reveal delay={120} className="h-full">
-                <div className="flex h-full flex-col rounded-3xl bg-white p-8 shadow-sm ring-1 ring-black/5">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-deep text-white shadow-sm">
+                <div className="flex h-full flex-col rounded-3xl bg-gradient-to-br from-deep to-navy p-8 text-white shadow-sm">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-white ring-1 ring-white/25">
                     <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
                       <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
                       <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
                     </svg>
                   </span>
-                  <h3 className="mt-5 font-display text-2xl font-bold text-navy">
+                  <h3 className="mt-5 font-display text-2xl font-bold text-white">
                     Our Vision
                   </h3>
-                  <p className="mt-3 leading-relaxed text-steel">{VISION}</p>
+                  <p className="mt-3 leading-relaxed text-white/85">{VISION}</p>
                 </div>
               </Reveal>
             </div>

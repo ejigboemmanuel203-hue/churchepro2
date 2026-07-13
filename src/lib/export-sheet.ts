@@ -89,7 +89,7 @@ export async function exportExcel(d: SheetExportData) {
   ws["!cols"] = Array.from({ length: cols }, (_, i) => ({ wch: i === 0 ? 18 : 7 }));
 
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Attendance");
+  XLSX.utils.book_append_sheet(wb, ws, "Church Attendance");
   const out = XLSX.write(wb, { bookType: "xlsx", type: "array" });
   triggerDownload(
     new Blob([out], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }),

@@ -34,7 +34,7 @@ export default async function SermonsPage() {
         <div className="flex items-center gap-2 text-sm">
           <Link href="/dashboard" className="text-steel hover:text-navy">Dashboard</Link>
           <span className="text-steel">/</span>
-          <span className="font-semibold text-navy">Sermons</span>
+          <span className="font-semibold text-navy">Sermons / Ministrations</span>
         </div>
       </header>
 
@@ -44,7 +44,7 @@ export default async function SermonsPage() {
         )}
 
         <div>
-          <h1 className="text-2xl font-bold text-navy">Sermons</h1>
+          <h1 className="text-2xl font-bold text-navy">Sermons / Ministrations</h1>
           <p className="mt-1 text-steel">Listen, watch, or download past messages.</p>
         </div>
 
