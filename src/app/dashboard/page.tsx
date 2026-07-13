@@ -99,12 +99,12 @@ export default async function DashboardPage({
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <FeatureCard title="Church Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="from-sky to-navy" />
-              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="from-deep to-steel" />
-              <FeatureCard title="Sermons / Ministrations" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="from-steel to-navy" />
-              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="from-sky to-deep" />
-              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="from-deep to-navy" />
-              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="from-sky to-steel" />
+              <FeatureCard title="Church Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="from-[#29a3e5] to-[#2188c6]" />
+              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="from-[#2a5680] to-[#224a6d]" />
+              <FeatureCard title="Sermons / Ministrations" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="from-[#5f8299] to-[#51707f]" />
+              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="from-[#1e2d3f] to-[#161f2c]" />
+              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="from-[#29a3e5] to-[#2188c6]" />
+              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="from-[#2a5680] to-[#224a6d]" />
             </div>
           </>
         )}
