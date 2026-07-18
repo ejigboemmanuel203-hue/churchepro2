@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { Reveal } from "@/components/reveal";
+import { SiteFooter } from "@/components/site-footer";
 import { DEMO_MODE } from "@/lib/demo-mode";
 import { MISSION, VISION } from "@/lib/about";
 
@@ -52,8 +53,6 @@ const steps = [
 ];
 
 export default function Home() {
-  const year = new Date().getFullYear();
-
   return (
     <>
       <SiteHeader />
@@ -71,7 +70,7 @@ export default function Home() {
               Run your church with <span className="text-sky">Churchepro</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg font-medium text-ice text-shadow-soft">
-              Attendance, follow-up, daily devotions, AI Bible quizzes and more —
+              Attendance, follow-up, sermons, prayer, Bible quizzes and more —
               each church in its own private, secure space.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -101,6 +100,9 @@ export default function Home() {
                 </>
               )}
             </div>
+            <p className="mt-4 text-sm font-medium text-ice/90 text-shadow-soft">
+              Free while we&apos;re in early access — no card required.
+            </p>
           </div>
         </section>
 
@@ -216,6 +218,40 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Testimonials (placeholder — replace with real quotes) */}
+        <section className="bg-gradient-to-b from-ice/60 to-white py-20">
+          <div className="mx-auto max-w-6xl px-6">
+            <Reveal>
+              <h2 className="text-center font-display text-3xl font-bold text-navy">
+                Loved by church leaders
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-center text-steel">
+                Sample testimonials — we&apos;ll feature real churches here soon.
+              </p>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {[
+                { quote: "Tracking attendance across our services used to take hours. Now it takes minutes, and the exports are ready instantly.", name: "Pastor A. (sample)", role: "Lead Pastor" },
+                { quote: "First-time visitors used to slip through the cracks. With follow-up built in, nobody gets missed anymore.", name: "Grace M. (sample)", role: "Follow-up Coordinator" },
+                { quote: "Sermons, the daily verse, and prayer requests all in one place — our members love how simple it is.", name: "Deacon J. (sample)", role: "Media Team" },
+              ].map((t, i) => (
+                <Reveal key={t.name} delay={i * 120} className="h-full">
+                  <figure className="flex h-full flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+                    <div aria-hidden className="text-lg text-sky">★★★★★</div>
+                    <blockquote className="mt-3 flex-1 leading-relaxed text-steel">
+                      &ldquo;{t.quote}&rdquo;
+                    </blockquote>
+                    <figcaption className="mt-4">
+                      <p className="font-semibold text-navy">{t.name}</p>
+                      <p className="text-sm text-steel">{t.role}</p>
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="bg-gradient-to-br from-deep to-sky py-16">
           <Reveal className="mx-auto max-w-3xl px-6 text-center">
@@ -240,9 +276,7 @@ export default function Home() {
           </Reveal>
         </section>
 
-        <footer className="bg-navy py-8 text-center text-sm text-ice">
-          © {year} Churchepro. All rights reserved.
-        </footer>
+        <SiteFooter />
       </main>
     </>
   );

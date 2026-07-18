@@ -5,12 +5,13 @@ import { MEMORY_VERSES } from "@/lib/memory-verses";
 
 // Rotating Bible memory verse — changes every 8 seconds with a soft fade.
 export function VerseWidget() {
-  const [index, setIndex] = useState(() =>
-    Math.floor(Math.random() * MEMORY_VERSES.length),
-  );
+  // Start at a fixed verse so server and client render the same HTML
+  // (avoids hydration mismatch); randomise once mounted on the client.
+  const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    setIndex(Math.floor(Math.random() * MEMORY_VERSES.length));
     const id = setInterval(() => {
       setVisible(false);
       // fade out, swap, fade back in
