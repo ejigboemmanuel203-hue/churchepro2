@@ -21,8 +21,8 @@ export default async function LoginPage({
 
   return (
     <main className="flex flex-1">
-      {/* Left: image (hidden on small screens) */}
-      <div className="relative hidden w-1/2 lg:block">
+      {/* Left: image (hidden on small screens, shown from md up incl. mobile desktop-mode) */}
+      <div className="relative hidden w-1/2 md:block">
         <Image
           src="/login-side.png"
           alt="Pastor and church members smiling together"
@@ -35,7 +35,7 @@ export default async function LoginPage({
       </div>
 
       {/* Right: sign-in form */}
-      <div className="flex w-full items-center justify-center bg-ice px-6 py-16 lg:w-1/2">
+      <div className="flex w-full items-center justify-center bg-ice px-6 py-16 md:w-1/2">
         <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-sm ring-1 ring-black/5">
           <Link href="/" className="flex items-center justify-center gap-2">
             <Image src="/logo.png" alt="Churchepro" width={40} height={40} className="h-10 w-10 object-contain" />

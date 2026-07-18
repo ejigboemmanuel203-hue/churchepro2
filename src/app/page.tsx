@@ -62,7 +62,7 @@ export default function Home() {
         <section className="relative isolate overflow-hidden">
           <HeroSlideshow />
           <div className="absolute inset-0 bg-navy/75" />
-          <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 py-28 text-center text-white sm:py-36">
+          <div className="relative mx-auto flex min-h-svh max-w-4xl flex-col items-center justify-center px-6 py-20 text-center text-white sm:min-h-0 sm:justify-start sm:py-36">
             <span className="mb-5 rounded-full bg-sky px-4 py-1 text-sm font-medium">
               Church management made simple
             </span>
