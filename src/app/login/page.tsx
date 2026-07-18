@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { signIn } from "@/lib/actions/auth";
 import { DEMO_MODE } from "@/lib/demo-mode";
+
+export const metadata: Metadata = {
+  title: "Sign in | Churchepro",
+  description: "Sign in to your Churchepro church dashboard.",
+};
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-steel/40 px-3 py-2 text-navy outline-none focus:border-sky focus:ring-1 focus:ring-sky";
@@ -73,7 +79,12 @@ export default async function LoginPage({
                   <input id="email" name="email" type="email" required className={inputClass} />
                 </div>
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-deep">Password</label>
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="password" className="block text-sm font-medium text-deep">Password</label>
+                    <Link href="/forgot-password" className="text-sm font-medium text-sky hover:underline">
+                      Forgot password?
+                    </Link>
+                  </div>
                   <input id="password" name="password" type="password" required className={inputClass} />
                 </div>
                 <button

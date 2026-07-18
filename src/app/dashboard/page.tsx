@@ -99,12 +99,12 @@ export default async function DashboardPage({
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <FeatureCard title="Church Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="from-[#29a3e5] to-[#2188c6]" />
-              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="from-[#2a5680] to-[#224a6d]" />
-              <FeatureCard title="Sermons / Ministrations" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="from-[#5f8299] to-[#51707f]" />
-              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="from-[#1e2d3f] to-[#161f2c]" />
-              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="from-[#29a3e5] to-[#2188c6]" />
-              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="from-[#2a5680] to-[#224a6d]" />
+              <FeatureCard title="Church Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" />
+              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="bg-deep" />
+              <FeatureCard title="Sermons / Ministrations" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="bg-steel" />
+              <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
+              <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
+              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="bg-sky" />
             </div>
           </>
         )}
@@ -167,34 +167,36 @@ function FeatureCard({
   const inner = (
     <>
       <div className="flex items-start justify-between">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/25">
+        <div className={`flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-sm ${soon ? "bg-steel/50" : accent}`}>
           {icon}
         </div>
         {soon ? (
-          <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-medium text-white">
+          <span className="rounded-full bg-ice px-2 py-0.5 text-xs font-medium text-steel">
             Coming soon
           </span>
         ) : (
-          href && <span className="text-lg text-white/90">→</span>
+          href && <span className="text-lg text-sky">→</span>
         )}
       </div>
-      <h2 className="mt-4 font-semibold text-white">{title}</h2>
-      <p className="mt-1 text-sm text-white/80">{desc}</p>
+      <h2 className="mt-4 font-semibold text-navy">{title}</h2>
+      <p className="mt-1 text-sm text-steel">{desc}</p>
     </>
   );
 
-  const base = `block rounded-2xl bg-gradient-to-br ${accent} p-6 text-white shadow-sm`;
+  const base = "rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5";
 
   if (href) {
     return (
       <Link
         href={href}
-        className={`${base} transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:brightness-105`}
+        className={`block ${base} transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/15 hover:ring-sky`}
       >
         {inner}
       </Link>
     );
   }
 
-  return <div className={base}>{inner}</div>;
+  // Disabled / coming-soon card: dimmed + desaturated so the colour also
+  // signals "not clickable yet", not just the badge.
+  return <div className={`${base} opacity-60 grayscale`}>{inner}</div>;
 }

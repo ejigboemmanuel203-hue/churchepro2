@@ -59,3 +59,48 @@ export async function signOut() {
   revalidatePath("/", "layout");
   redirect("/login");
 }
+
+// Step 1 of reset: email the user a password-reset link.
+export async function requestPasswordReset(formData: FormData) {
+  const email = String(formData.get("email") ?? "").trim();
+
+  if (email) {
+    const supabase = await createClient();
+    await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm?next=/reset-password`,
+    });
+  }
+
+  // Always report success so we don't reveal which emails are registered.
+  redirect(
+    `/forgot-password?sent=1`,
+  );
+}
+
+// Step 2 of reset: set the new password (user arrives with a recovery session).
+export async function setNewPassword(formData: FormData) {
+  const password = String(formData.get("password") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
+
+  if (password.length < 6) {
+    redirect(`/reset-password?error=${encodeURIComponent("Password must be at least 6 characters.")}`);
+  }
+  if (password !== confirm) {
+    redirect(`/reset-password?error=${encodeURIComponent("Passwords do not match.")}`);
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect(`/login?error=${encodeURIComponent("Your reset link has expired. Please request a new one.")}`);
+  }
+
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) {
+    redirect(`/reset-password?error=${encodeURIComponent(error.message)}`);
+  }
+
+  redirect(`/login?message=${encodeURIComponent("Password updated. Please sign in with your new password.")}`);
+}

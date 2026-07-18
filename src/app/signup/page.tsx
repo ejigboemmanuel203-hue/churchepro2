@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { signUp } from "@/lib/actions/auth";
 import { DEMO_MODE } from "@/lib/demo-mode";
 import { PasswordInput } from "@/components/password-input";
+
+export const metadata: Metadata = {
+  title: "Create your account | Churchepro",
+  description: "Sign up and set up your church on Churchepro in minutes.",
+};
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-steel/40 px-3 py-2 text-navy outline-none focus:border-sky focus:ring-1 focus:ring-sky";
