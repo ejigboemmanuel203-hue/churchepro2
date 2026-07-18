@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { saveAvatarUrl, updatePassword } from "@/lib/actions/account";
 import { signOut } from "@/lib/actions/auth";
 import { MISSION, VISION } from "@/lib/about";
 
-type View = "menu" | "password" | "about";
+type View = "menu" | "password" | "about" | "invite" | "contact";
+
+const CONTACT_EMAIL = "hello@churchepro.com";
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-steel/40 px-3 py-2 text-navy outline-none focus:border-sky focus:ring-1 focus:ring-sky";
@@ -30,8 +32,25 @@ export function AccountPanel({
   const [avatarBusy, setAvatarBusy] = useState(false);
   const [pwBusy, setPwBusy] = useState(false);
   const [pwMsg, setPwMsg] = useState<{ ok?: boolean; error?: string | null } | null>(null);
+  const [origin, setOrigin] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => setOrigin(window.location.origin), []);
 
   const initials = (name || email || "?").trim().charAt(0).toUpperCase();
+
+  const inviteLink = `${origin}/signup`;
+  const inviteMessage = `Join me on Churchepro — a simple way to manage your church all in one place. Sign up here: ${inviteLink}`;
+
+  async function copyInvite() {
+    try {
+      await navigator.clipboard.writeText(inviteLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable — user can still select the text */
+    }
+  }
 
   function close() {
     setOpen(false);
@@ -93,7 +112,15 @@ export function AccountPanel({
     );
 
   const title =
-    view === "password" ? "Change password" : view === "about" ? "About Churchepro" : "Account";
+    view === "password"
+      ? "Change password"
+      : view === "about"
+        ? "About Churchepro"
+        : view === "invite"
+          ? "Invite a friend"
+          : view === "contact"
+            ? "Contact us"
+            : "Account";
 
   return (
     <>
@@ -156,15 +183,15 @@ export function AccountPanel({
                 <nav className="border-t border-steel/15">
                   <MenuItem label="Change password" onClick={() => setView("password")} />
                   <MenuItem label="About Churchepro" onClick={() => setView("about")} />
-                </nav>
-
-                <div className="mt-auto border-t border-steel/15 p-5">
+                  <MenuItem label="Contact us" onClick={() => setView("contact")} />
+                  <MenuItem label="Invite a friend" onClick={() => setView("invite")} />
                   <form action={signOut}>
-                    <button className="h-11 w-full rounded-lg border border-red-200 font-medium text-red-600 transition-colors hover:bg-red-50">
-                      Sign out
+                    <button className="flex w-full items-center justify-between px-5 py-4 text-left font-medium text-red-600 transition-colors hover:bg-red-50">
+                      <span>Sign out</span>
+                      <span aria-hidden>↪</span>
                     </button>
                   </form>
-                </div>
+                </nav>
               </div>
             )}
 
@@ -212,6 +239,71 @@ export function AccountPanel({
                   <p className="text-sm font-semibold text-navy">Our Vision</p>
                   <p className="mt-1 text-sm leading-relaxed text-steel">{VISION}</p>
                 </div>
+              </div>
+            )}
+
+            {/* ---- INVITE A FRIEND ---- */}
+            {view === "invite" && (
+              <div className="space-y-4 p-5">
+                <p className="text-sm text-steel">
+                  Invite a friend to Churchepro. Share this link and they can
+                  create their own account.
+                </p>
+                <div className="flex items-center gap-2">
+                  <input
+                    readOnly
+                    value={inviteLink}
+                    onFocus={(e) => e.currentTarget.select()}
+                    className="min-w-0 flex-1 rounded-lg border border-steel/40 px-3 py-2 text-sm text-navy outline-none"
+                  />
+                  <button
+                    onClick={copyInvite}
+                    className="h-10 shrink-0 rounded-lg bg-sky px-4 text-sm font-medium text-white transition-colors hover:bg-deep"
+                  >
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(inviteMessage)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex h-10 items-center justify-center rounded-lg bg-ice text-sm font-medium text-deep transition-colors hover:bg-sky hover:text-white"
+                  >
+                    WhatsApp
+                  </a>
+                  <a
+                    href={`mailto:?subject=${encodeURIComponent("Join me on Churchepro")}&body=${encodeURIComponent(inviteMessage)}`}
+                    className="flex h-10 items-center justify-center rounded-lg bg-ice text-sm font-medium text-deep transition-colors hover:bg-sky hover:text-white"
+                  >
+                    Email
+                  </a>
+                </div>
+              </div>
+            )}
+
+            {/* ---- CONTACT US ---- */}
+            {view === "contact" && (
+              <div className="space-y-4 p-5">
+                <p className="text-sm text-steel">
+                  Questions, feedback, or need a hand? We&apos;d love to hear
+                  from you.
+                </p>
+                <div className="rounded-xl bg-ice/60 p-4">
+                  <p className="text-sm font-semibold text-navy">Email us</p>
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="mt-1 block text-sm font-medium text-sky hover:underline"
+                  >
+                    {CONTACT_EMAIL}
+                  </a>
+                </div>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Churchepro support")}`}
+                  className="flex h-11 items-center justify-center rounded-lg bg-sky font-medium text-white transition-colors hover:bg-deep"
+                >
+                  Send us a message
+                </a>
               </div>
             )}
           </div>
