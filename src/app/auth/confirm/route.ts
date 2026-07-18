@@ -2,15 +2,25 @@ import { type EmailOtpType } from "@supabase/supabase-js";
 import { type NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-// Handles the email-confirmation link Supabase sends after sign-up.
+// Handles email links from Supabase — sign-up confirmation AND password
+// reset. Supports both the PKCE `code` flow and the `token_hash` OTP flow.
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
+  const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/dashboard";
 
-  if (token_hash && type) {
-    const supabase = await createClient();
+  const supabase = await createClient();
+
+  if (code) {
+    // PKCE flow (default for @supabase/ssr)
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error) {
+      return NextResponse.redirect(new URL(next, request.url));
+    }
+  } else if (token_hash && type) {
+    // OTP / token-hash flow
     const { error } = await supabase.auth.verifyOtp({ type, token_hash });
     if (!error) {
       return NextResponse.redirect(new URL(next, request.url));
@@ -18,6 +28,9 @@ export async function GET(request: NextRequest) {
   }
 
   return NextResponse.redirect(
-    new URL("/login?error=Could not confirm your email link.", request.url),
+    new URL(
+      "/login?error=Your link is invalid or has expired. Please request a new one.",
+      request.url,
+    ),
   );
 }

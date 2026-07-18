@@ -1,8 +1,19 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+
+// Best base URL for building email links: explicit env var, else the
+// current request's host (so it always matches the live deployment).
+async function siteOrigin() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
+  const proto = h.get("x-forwarded-proto") ?? (host.includes("localhost") ? "http" : "https");
+  return `${proto}://${host}`;
+}
 
 // Sign in an existing user with email + password.
 export async function signIn(formData: FormData) {
@@ -32,12 +43,13 @@ export async function signUp(formData: FormData) {
   }
 
   const supabase = await createClient();
+  const origin = await siteOrigin();
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: { full_name: fullName },
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm`,
+      emailRedirectTo: `${origin}/auth/confirm`,
     },
   });
 
@@ -66,8 +78,9 @@ export async function requestPasswordReset(formData: FormData) {
 
   if (email) {
     const supabase = await createClient();
+    const origin = await siteOrigin();
     await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm?next=/reset-password`,
+      redirectTo: `${origin}/auth/confirm?next=/reset-password`,
     });
   }
 
