@@ -105,6 +105,7 @@ export default async function DashboardPage({
               <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
               <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
               <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="bg-sky" />
+              <FeatureCard title="AI Assistant" desc="Ask about the app or the Bible." href="/dashboard/assistant" icon={ICONS.assistant} accent="bg-deep" />
             </div>
           </>
         )}
@@ -145,6 +146,12 @@ const ICONS = {
   quiz: (
     <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
       <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3ZM18 14.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8.8-1.9Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  assistant: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M8.5 10h.01M12 10h.01M15.5 10h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   ),
 };
