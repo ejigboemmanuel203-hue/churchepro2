@@ -104,7 +104,7 @@ export default async function DashboardPage({
               <FeatureCard title="Sermons / Ministrations" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="bg-steel" />
               <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
               <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
-              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="bg-sky" />
+              <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" img="/quiz-icon.png" />
             </div>
           </>
         )}
@@ -162,20 +162,26 @@ function FeatureCard({
   href,
   icon,
   accent,
+  img,
 }: {
   title: string;
   desc: string;
   soon?: boolean;
   href?: string;
-  icon: React.ReactNode;
-  accent: string;
+  icon?: React.ReactNode;
+  accent?: string;
+  img?: string;
 }) {
   const inner = (
     <>
       <div className="flex items-start justify-between">
-        <div className={`flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-sm ${soon ? "bg-steel/50" : accent}`}>
-          {icon}
-        </div>
+        {img ? (
+          <Image src={img} alt="" width={44} height={44} className="h-11 w-11 object-contain" />
+        ) : (
+          <div className={`flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-sm ${soon ? "bg-steel/50" : accent}`}>
+            {icon}
+          </div>
+        )}
         {soon ? (
           <span className="rounded-full bg-ice px-2 py-0.5 text-xs font-medium text-steel">
             Coming soon
