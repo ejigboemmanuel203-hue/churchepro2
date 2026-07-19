@@ -51,7 +51,7 @@ export function AssistantChat() {
   }
 
   return (
-    <div className="mx-auto flex h-[calc(100svh-14rem)] w-full max-w-2xl flex-col">
+    <div className="flex h-full w-full flex-col">
       {/* Messages */}
       <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5">
         {messages.length === 0 ? (

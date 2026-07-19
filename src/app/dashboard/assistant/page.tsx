@@ -20,7 +20,7 @@ export default async function AssistantPage() {
         </div>
       </header>
 
-      <div className="w-full px-6 py-8">
+      <div className="mx-auto h-[calc(100svh-10rem)] w-full max-w-2xl px-6 py-6">
         <AssistantChat />
       </div>
     </main>

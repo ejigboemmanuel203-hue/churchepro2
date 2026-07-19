@@ -105,7 +105,6 @@ export default async function DashboardPage({
               <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
               <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
               <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" icon={ICONS.quiz} accent="bg-sky" />
-              <FeatureCard title="AI Assistant" desc="Ask about the app or the Bible." href="/dashboard/assistant" icon={ICONS.assistant} accent="bg-deep" />
             </div>
           </>
         )}

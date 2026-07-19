@@ -67,7 +67,7 @@ export default function Home() {
               Church management made simple
             </span>
             <h1 className="font-display text-4xl font-bold leading-tight text-shadow-soft sm:text-6xl">
-              Run your church with <span className="text-sky">Churchepro</span>
+              Run your church with Church<span className="text-sky">epro</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg font-medium text-ice text-shadow-soft">
               Attendance, follow-up, sermons, prayer, Bible quizzes and more —
