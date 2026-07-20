@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { pickQuestions } from "@/lib/quiz";
+import { recordQuizResult } from "@/lib/actions/quiz";
 import { DIFFICULTIES, QUESTION_COUNTS } from "@/lib/quiz/types";
 import type { DifficultyKey, QuizQuestion } from "@/lib/quiz/types";
 
@@ -17,6 +18,20 @@ export function QuizApp() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>([]);
   const [picked, setPicked] = useState<number | null>(null);
+  const recorded = useRef(false);
+
+  // Record the score to the leaderboard once, when a quiz reaches results.
+  useEffect(() => {
+    if (phase === "setup") recorded.current = false;
+    if (phase === "results" && !recorded.current) {
+      recorded.current = true;
+      const correct = answers.reduce<number>(
+        (s, a, i) => (a === questions[i]?.answer ? s + 1 : s),
+        0,
+      );
+      void recordQuizResult(correct);
+    }
+  }, [phase, answers, questions]);
 
   function start() {
     const qs = pickQuestions(difficulty, count);
@@ -126,6 +141,12 @@ export function QuizApp() {
           >
             Start quiz
           </button>
+          <Link
+            href="/dashboard/quiz/leaderboard"
+            className="mt-3 flex h-11 items-center justify-center gap-2 rounded-xl border border-steel/30 font-semibold text-deep transition-colors hover:border-sky"
+          >
+            🏆 View leaderboard
+          </Link>
         </div>
       </div>
     );
@@ -255,6 +276,12 @@ export function QuizApp() {
           >
             Try again
           </button>
+          <Link
+            href="/dashboard/quiz/leaderboard"
+            className="flex h-11 items-center justify-center gap-2 rounded-xl border border-steel/30 px-6 font-semibold text-deep transition-colors hover:border-sky"
+          >
+            🏆 Leaderboard
+          </Link>
           <Link
             href="/dashboard"
             className="flex h-11 items-center justify-center rounded-xl border border-steel/30 px-6 font-semibold text-deep transition-colors hover:border-sky"

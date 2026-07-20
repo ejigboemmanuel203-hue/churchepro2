@@ -105,6 +105,7 @@ export default async function DashboardPage({
               <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
               <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
               <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" img="/quiz-icon.png" />
+              <FeatureCard title="Donations" desc="Give to your church via the deposit details." href="/dashboard/donations" icon={ICONS.donations} accent="bg-steel" />
             </div>
           </>
         )}
@@ -151,6 +152,12 @@ const ICONS = {
     <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
       <path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
       <path d="M8.5 10h.01M12 10h.01M15.5 10h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  ),
+  donations: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <path d="M4 11h16v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8ZM3 7.5h18V11H3V7.5ZM12 7.5V20" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M12 7.5C11 5 9.5 4 8.3 4.6 6.9 5.3 8 7.5 12 7.5ZM12 7.5c1-2.5 2.5-3.5 3.7-2.9 1.4.7.3 2.9-3.7 2.9Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
     </svg>
   ),
 };
