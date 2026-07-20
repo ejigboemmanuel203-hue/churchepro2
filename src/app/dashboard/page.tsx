@@ -176,7 +176,9 @@ function FeatureCard({
     <>
       <div className="flex items-start justify-between">
         {img ? (
-          <Image src={img} alt="" width={44} height={44} className="h-11 w-11 object-contain" />
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-ice p-1.5 shadow-sm ring-1 ring-black/5">
+            <Image src={img} alt="" width={40} height={40} className="h-full w-full object-contain" />
+          </div>
         ) : (
           <div className={`flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-sm ${soon ? "bg-steel/50" : accent}`}>
             {icon}

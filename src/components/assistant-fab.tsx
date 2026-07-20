@@ -1,13 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AssistantChat } from "@/app/dashboard/assistant/assistant-chat";
 
 // Floating action button (bottom-right) that opens the AI assistant in a
 // floating chat panel — similar to the Meta AI button in WhatsApp.
 export function AssistantFab() {
   const [open, setOpen] = useState(false);
+  const [pulsing, setPulsing] = useState(true);
+
+  // Only draw attention for the first few seconds, then stop pulsing.
+  useEffect(() => {
+    const t = setTimeout(() => setPulsing(false), 6000);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <>
@@ -37,8 +44,8 @@ export function AssistantFab() {
 
       {/* Floating button */}
       <div className="fixed right-4 bottom-20 z-50 md:right-6 md:bottom-6">
-        {/* subtle attention pulse (only when closed) */}
-        {!open && (
+        {/* subtle attention pulse (first few seconds only, when closed) */}
+        {!open && pulsing && (
           <span className="absolute inset-0 -z-10 rounded-full bg-sky/40 animate-fab-pulse" />
         )}
         <button
