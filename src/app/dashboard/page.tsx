@@ -6,6 +6,7 @@ import { createChurch } from "@/lib/actions/church";
 import { DepartmentSelect } from "./department-select";
 import { AccountPanel } from "@/components/account-panel";
 import { VerseWidget } from "@/components/verse-widget";
+import { AdminMode } from "@/components/admin-mode";
 
 export default async function DashboardPage({
   searchParams,
@@ -28,6 +29,21 @@ export default async function DashboardPage({
 
   const churchName =
     (profile?.churches as { name?: string } | null)?.name ?? null;
+  const isAdminRole = profile?.role === "admin";
+
+  // Admin-mode fields queried separately so the dashboard still works even
+  // before migration 0012 adds these columns.
+  let hasAdminCode = false;
+  let elevated = false;
+  if (isAdminRole) {
+    const { data: adminInfo } = await supabase
+      .from("profiles")
+      .select("admin_code_hash, elevated")
+      .eq("id", user.id)
+      .maybeSingle();
+    hasAdminCode = !!adminInfo?.admin_code_hash;
+    elevated = !!adminInfo?.elevated;
+  }
   const ministryRole = (profile?.ministry_role as string | null) ?? null;
   // Once a user has a church but hasn't picked their department yet,
   // prompt them to choose before showing the dashboard.
@@ -97,6 +113,12 @@ export default async function DashboardPage({
               </div>
               <VerseWidget />
             </div>
+
+            {isAdminRole && (
+              <div className="mt-6">
+                <AdminMode hasCode={hasAdminCode} elevated={elevated} />
+              </div>
+            )}
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <FeatureCard title="Church Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" />

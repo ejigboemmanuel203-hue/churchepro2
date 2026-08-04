@@ -17,8 +17,8 @@ export default async function FollowupListPage({
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: me } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  const isAdmin = me?.role === "admin";
+  const { data: me } = await supabase.from("profiles").select("role, elevated").eq("id", user.id).single();
+  const isAdmin = me?.role === "admin" && !!me?.elevated;
 
   const { data: members } = await supabase.from("profiles").select("id, full_name, email");
   const memberName = (id: string | null) =>

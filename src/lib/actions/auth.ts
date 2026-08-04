@@ -67,6 +67,13 @@ export async function signUp(formData: FormData) {
 // Sign the current user out.
 export async function signOut() {
   const supabase = await createClient();
+  // Drop any elevated admin session before signing out.
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) {
+    await supabase.from("profiles").update({ elevated: false }).eq("id", user.id);
+  }
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
   redirect("/login");

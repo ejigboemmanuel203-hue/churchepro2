@@ -29,11 +29,12 @@ export default async function DonationsPage({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("church_id, role")
+    .select("church_id, role, elevated")
     .eq("id", user.id)
     .single();
 
-  const isAdmin = profile?.role === "admin";
+  // Admin controls require an elevated admin session.
+  const isAdmin = profile?.role === "admin" && !!profile?.elevated;
 
   const { data: church } = await supabase
     .from("churches")
