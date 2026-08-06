@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createChurch } from "@/lib/actions/church";
 import { DepartmentSelect } from "./department-select";
+import { AccessModeStep } from "./access-mode-step";
 import { AccountPanel } from "@/components/account-panel";
 import { VerseWidget } from "@/components/verse-widget";
 import { AdminMode } from "@/components/admin-mode";
@@ -29,25 +30,27 @@ export default async function DashboardPage({
 
   const churchName =
     (profile?.churches as { name?: string } | null)?.name ?? null;
-  const isAdminRole = profile?.role === "admin";
 
-  // Admin-mode fields queried separately so the dashboard still works even
-  // before migration 0012 adds these columns.
-  let hasAdminCode = false;
+  // Access-mode + elevation queried separately so the dashboard still works
+  // even before migration 0013 adds these columns.
+  let accessMode: string | null = null;
   let elevated = false;
-  if (isAdminRole) {
+  {
     const { data: adminInfo } = await supabase
       .from("profiles")
-      .select("admin_code_hash, elevated")
+      .select("access_mode, elevated")
       .eq("id", user.id)
       .maybeSingle();
-    hasAdminCode = !!adminInfo?.admin_code_hash;
+    accessMode = (adminInfo?.access_mode as string | null) ?? null;
     elevated = !!adminInfo?.elevated;
   }
   const ministryRole = (profile?.ministry_role as string | null) ?? null;
-  // Once a user has a church but hasn't picked their department yet,
-  // prompt them to choose before showing the dashboard.
-  const needsDepartment = !!churchName && !ministryRole;
+  // Onboarding order once a church exists: choose access mode (member vs
+  // admin) → pick a department → dashboard. Both steps only apply while the
+  // user still lacks a department, so already-onboarded users are unaffected
+  // (and the app stays usable before migration 0013 adds `access_mode`).
+  const needsAccessMode = !!churchName && !ministryRole && !accessMode;
+  const needsDepartment = !!churchName && !ministryRole && !!accessMode;
 
   return (
     <main className="flex flex-1 flex-col bg-ice">
@@ -99,6 +102,8 @@ export default async function DashboardPage({
               </button>
             </form>
           </div>
+        ) : needsAccessMode ? (
+          <AccessModeStep churchName={churchName!} />
         ) : needsDepartment ? (
           <DepartmentSelect churchName={churchName!} />
         ) : (
@@ -114,11 +119,12 @@ export default async function DashboardPage({
               <VerseWidget />
             </div>
 
-            {isAdminRole && (
-              <div className="mt-6">
-                <AdminMode hasCode={hasAdminCode} elevated={elevated} />
-              </div>
-            )}
+            {/* Admin banner: if elevated, offers "view as member"; otherwise
+                "Switch to Admin" (gated by the passcode). Shown to everyone so
+                admin stays reachable to anyone who knows the code. */}
+            <div className="mt-6">
+              <AdminMode elevated={elevated} />
+            </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <FeatureCard title="Church Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" />

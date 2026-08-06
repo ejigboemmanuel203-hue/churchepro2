@@ -2,18 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createAdminCode, enableAdminMode, exitAdminMode } from "@/lib/actions/admin-mode";
+import { enableAdminMode, exitAdminMode } from "@/lib/actions/admin-mode";
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-steel/40 px-3 py-2 text-navy outline-none focus:border-sky focus:ring-1 focus:ring-sky";
 
-export function AdminMode({
-  hasCode,
-  elevated,
-}: {
-  hasCode: boolean;
-  elevated: boolean;
-}) {
+export function AdminMode({ elevated }: { elevated: boolean }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -31,10 +25,7 @@ export function AdminMode({
     setBusy(true);
     setError(null);
     const fd = new FormData(e.currentTarget);
-    const code = String(fd.get("code") ?? "");
-    const res = hasCode
-      ? await enableAdminMode(code)
-      : await createAdminCode(code, String(fd.get("confirm") ?? ""));
+    const res = await enableAdminMode(String(fd.get("code") ?? ""));
     setBusy(false);
     if (res?.error) {
       setError(res.error);
@@ -84,13 +75,9 @@ export function AdminMode({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-navy/40 backdrop-blur-sm" onClick={() => setOpen(false)} />
           <div className="relative w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
-            <h2 className="font-display text-xl font-bold text-navy">
-              {hasCode ? "Enter admin code" : "Create your admin code"}
-            </h2>
+            <h2 className="font-display text-xl font-bold text-navy">Enter admin passcode</h2>
             <p className="mt-1 text-sm text-steel">
-              {hasCode
-                ? "Enter your personal admin code to manage your church."
-                : "Set a personal code (at least 6 letters/numbers). You'll use it to enter admin mode."}
+              Enter the church admin passcode to manage your church.
             </p>
 
             {error && (
@@ -99,24 +86,16 @@ export function AdminMode({
 
             <form onSubmit={submit} className="mt-4 space-y-3">
               <div>
-                <label className="block text-sm font-medium text-deep">
-                  {hasCode ? "Admin code" : "New code"}
-                </label>
+                <label className="block text-sm font-medium text-deep">Admin passcode</label>
                 <input name="code" type="password" autoComplete="off" required className={inputClass} />
               </div>
-              {!hasCode && (
-                <div>
-                  <label className="block text-sm font-medium text-deep">Confirm code</label>
-                  <input name="confirm" type="password" autoComplete="off" required className={inputClass} />
-                </div>
-              )}
               <div className="flex gap-2 pt-1">
                 <button
                   type="submit"
                   disabled={busy}
                   className="h-10 flex-1 rounded-lg bg-sky font-medium text-white hover:bg-deep disabled:opacity-60"
                 >
-                  {busy ? "Please wait…" : hasCode ? "Enter admin mode" : "Create & continue"}
+                  {busy ? "Please wait…" : "Enter admin mode"}
                 </button>
                 <button
                   type="button"

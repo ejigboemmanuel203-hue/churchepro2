@@ -1,52 +1,83 @@
 "use server";
 
-import { randomBytes, scryptSync, timingSafeEqual } from "crypto";
+import { timingSafeEqual } from "crypto";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 const MAX_ATTEMPTS = 5;
 const LOCK_MINUTES = 15;
-const CODE_RE = /^[A-Za-z0-9]{6,}$/;
-
-function hashCode(code: string) {
-  const salt = randomBytes(16).toString("hex");
-  const hash = scryptSync(code, salt, 32).toString("hex");
-  return `${salt}:${hash}`;
-}
-
-function verifyCode(code: string, stored: string) {
-  const [salt, hash] = stored.split(":");
-  if (!salt || !hash) return false;
-  const test = scryptSync(code, salt, 32).toString("hex");
-  const a = Buffer.from(hash, "hex");
-  const b = Buffer.from(test, "hex");
-  return a.length === b.length && timingSafeEqual(a, b);
-}
 
 type Result = { ok?: boolean; error?: string };
 
-// First-time: an admin creates their personal code and is elevated.
-export async function createAdminCode(code: string, confirm: string): Promise<Result> {
+// Constant-time compare of the entered code against the master passcode
+// (ADMIN_MASTER_CODE). Never leaks whether the code is configured via timing.
+function matchesMasterCode(entered: string): boolean {
+  const master = process.env.ADMIN_MASTER_CODE ?? "";
+  if (!master) return false;
+  const a = Buffer.from(entered);
+  const b = Buffer.from(master);
+  // Pad to equal length so timingSafeEqual doesn't throw and length isn't leaked.
+  const len = Math.max(a.length, b.length);
+  const pa = Buffer.alloc(len);
+  const pb = Buffer.alloc(len);
+  a.copy(pa);
+  b.copy(pb);
+  return timingSafeEqual(pa, pb) && a.length === b.length;
+}
+
+// Shared: verify the master code with rate-limiting, then elevate the user.
+async function elevateWithCode(code: string, accessMode: "admin"): Promise<Result> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { error: "Please sign in." };
 
+  if (!process.env.ADMIN_MASTER_CODE) {
+    return { error: "Admin passcode isn't configured yet. Contact the site owner." };
+  }
+
   const { data: profile } = await supabase
     .from("profiles")
-    .select("role, admin_code_hash")
+    .select("code_attempts, code_locked_until")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (profile?.role !== "admin") return { error: "Only church admins can set an admin code." };
-  if (profile?.admin_code_hash) return { error: "You already have an admin code." };
-  if (!CODE_RE.test(code)) return { error: "Code must be at least 6 letters/numbers." };
-  if (code !== confirm) return { error: "Codes do not match." };
+  const lockedUntil = profile?.code_locked_until
+    ? new Date(profile.code_locked_until as string)
+    : null;
+  if (lockedUntil && lockedUntil > new Date()) {
+    return { error: `Too many attempts. Try again after ${lockedUntil.toLocaleTimeString()}.` };
+  }
+
+  if (!matchesMasterCode(code)) {
+    const attempts = ((profile?.code_attempts as number) ?? 0) + 1;
+    const locked = attempts >= MAX_ATTEMPTS;
+    await supabase
+      .from("profiles")
+      .update({
+        code_attempts: locked ? 0 : attempts,
+        code_locked_until: locked
+          ? new Date(Date.now() + LOCK_MINUTES * 60000).toISOString()
+          : null,
+      })
+      .eq("id", user.id);
+    return {
+      error: locked
+        ? `Too many wrong attempts. Locked for ${LOCK_MINUTES} minutes.`
+        : `Incorrect passcode. ${MAX_ATTEMPTS - attempts} attempt(s) left.`,
+    };
+  }
 
   const { error } = await supabase
     .from("profiles")
-    .update({ admin_code_hash: hashCode(code), elevated: true, code_attempts: 0, code_locked_until: null })
+    .update({
+      access_mode: accessMode,
+      role: "admin",
+      elevated: true,
+      code_attempts: 0,
+      code_locked_until: null,
+    })
     .eq("id", user.id);
   if (error) return { error: error.message };
 
@@ -54,55 +85,38 @@ export async function createAdminCode(code: string, confirm: string): Promise<Re
   return { ok: true };
 }
 
-// Enter the code to elevate for this session.
-export async function enableAdminMode(code: string): Promise<Result> {
+// Onboarding choice: "Continue as member/worker" or "Continue as admin".
+// Admin requires the correct master passcode; member proceeds with no code.
+export async function chooseAccessMode(
+  mode: "member" | "admin",
+  code?: string,
+): Promise<Result> {
+  if (mode === "admin") {
+    return elevateWithCode(String(code ?? ""), "admin");
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { error: "Please sign in." };
 
-  const { data: profile } = await supabase
+  const { error } = await supabase
     .from("profiles")
-    .select("role, admin_code_hash, code_attempts, code_locked_until")
-    .eq("id", user.id)
-    .single();
-
-  if (profile?.role !== "admin") return { error: "Only church admins can do this." };
-  if (!profile?.admin_code_hash) return { error: "No admin code set yet." };
-
-  const lockedUntil = profile.code_locked_until ? new Date(profile.code_locked_until as string) : null;
-  if (lockedUntil && lockedUntil > new Date()) {
-    return { error: `Too many attempts. Try again after ${lockedUntil.toLocaleTimeString()}.` };
-  }
-
-  if (!verifyCode(code, profile.admin_code_hash as string)) {
-    const attempts = ((profile.code_attempts as number) ?? 0) + 1;
-    const locked = attempts >= MAX_ATTEMPTS;
-    await supabase
-      .from("profiles")
-      .update({
-        code_attempts: locked ? 0 : attempts,
-        code_locked_until: locked ? new Date(Date.now() + LOCK_MINUTES * 60000).toISOString() : null,
-      })
-      .eq("id", user.id);
-    return {
-      error: locked
-        ? `Too many wrong attempts. Locked for ${LOCK_MINUTES} minutes.`
-        : `Incorrect code. ${MAX_ATTEMPTS - attempts} attempt(s) left.`,
-    };
-  }
-
-  await supabase
-    .from("profiles")
-    .update({ elevated: true, code_attempts: 0, code_locked_until: null })
+    .update({ access_mode: "member", role: "member", elevated: false })
     .eq("id", user.id);
+  if (error) return { error: error.message };
 
   revalidatePath("/dashboard");
   return { ok: true };
 }
 
-// Drop back to member view.
+// Dashboard: re-enter admin mode this session by typing the master passcode.
+export async function enableAdminMode(code: string): Promise<Result> {
+  return elevateWithCode(code, "admin");
+}
+
+// Drop back to member view (stays a member until the code is entered again).
 export async function exitAdminMode(): Promise<Result> {
   const supabase = await createClient();
   const {
