@@ -29,12 +29,18 @@ export default async function DonationsPage({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("church_id, role, elevated")
+    .select("church_id, role")
     .eq("id", user.id)
     .single();
 
-  // Admin controls require an elevated admin session.
-  const isAdmin = profile?.role === "admin" && !!profile?.elevated;
+  // Elevation queried separately so this page still works before migration
+  // 0012 adds the `elevated` column. Admin controls require an elevated session.
+  const { data: elev } = await supabase
+    .from("profiles")
+    .select("elevated")
+    .eq("id", user.id)
+    .maybeSingle();
+  const isAdmin = profile?.role === "admin" && !!elev?.elevated;
 
   const { data: church } = await supabase
     .from("churches")
