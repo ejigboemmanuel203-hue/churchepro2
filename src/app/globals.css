@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ============================================================
    Churchepro brand palette (from the provided color board)
    ============================================================ */
@@ -41,6 +43,38 @@ body {
   color: var(--color-navy);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   scroll-behavior: smooth;
+}
+
+/* Dark mode overrides */
+.dark body,
+.dark {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* Map brand colors to dark equivalents via utility overrides */
+.dark .bg-ice { background-color: #1e293b; }
+.dark .bg-white { background-color: #1e293b; }
+.dark .text-navy { color: #e2e8f0; }
+.dark .text-deep { color: #93c5fd; }
+.dark .text-steel { color: #94a3b8; }
+.dark .border-steel\/15 { border-color: rgba(148, 163, 184, 0.15); }
+.dark .border-steel\/20 { border-color: rgba(148, 163, 184, 0.2); }
+.dark .ring-black\/5 { --tw-ring-color: rgba(255, 255, 255, 0.1); }
+.dark .bg-white\/50 { background-color: rgba(30, 41, 59, 0.5); }
+.dark .bg-ice\/50 { background-color: rgba(30, 41, 59, 0.5); }
+.dark .border-steel\/40 { border-color: rgba(148, 163, 184, 0.3); }
+.dark .bg-ice\/60 { background-color: rgba(30, 41, 59, 0.6); }
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b;
 }
 
 /* ---- Daily Devotion: page-flip-on-hover book icon ---- */

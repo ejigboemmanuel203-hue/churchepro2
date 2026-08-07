@@ -75,6 +75,7 @@ async function elevateWithCode(code: string, accessMode: "admin"): Promise<Resul
       access_mode: accessMode,
       role: "admin",
       elevated: true,
+      admin_mode: "creator",
       code_attempts: 0,
       code_locked_until: null,
     })
@@ -116,6 +117,24 @@ export async function enableAdminMode(code: string): Promise<Result> {
   return elevateWithCode(code, "admin");
 }
 
+// Switch between admin sub-modes (creator/analysis) while staying elevated.
+export async function switchAdminMode(mode: "creator" | "analysis"): Promise<Result> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Please sign in." };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ admin_mode: mode })
+    .eq("id", user.id);
+  if (error) return { error: error.message };
+
+  revalidatePath("/dashboard");
+  return { ok: true };
+}
+
 // Drop back to member view (stays a member until the code is entered again).
 export async function exitAdminMode(): Promise<Result> {
   const supabase = await createClient();
@@ -124,7 +143,7 @@ export async function exitAdminMode(): Promise<Result> {
   } = await supabase.auth.getUser();
   if (!user) return { error: "Please sign in." };
 
-  await supabase.from("profiles").update({ elevated: false }).eq("id", user.id);
+  await supabase.from("profiles").update({ elevated: false, admin_mode: "member" }).eq("id", user.id);
   revalidatePath("/dashboard");
   return { ok: true };
 }

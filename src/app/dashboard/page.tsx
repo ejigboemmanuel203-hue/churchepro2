@@ -8,6 +8,7 @@ import { AccessModeStep } from "./access-mode-step";
 import { AccountPanel } from "@/components/account-panel";
 import { VerseWidget } from "@/components/verse-widget";
 import { AdminMode } from "@/components/admin-mode";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default async function DashboardPage({
   searchParams,
@@ -35,14 +36,16 @@ export default async function DashboardPage({
   // even before migration 0013 adds these columns.
   let accessMode: string | null = null;
   let elevated = false;
+  let adminMode = "member";
   {
     const { data: adminInfo } = await supabase
       .from("profiles")
-      .select("access_mode, elevated")
+      .select("access_mode, elevated, admin_mode")
       .eq("id", user.id)
       .maybeSingle();
     accessMode = (adminInfo?.access_mode as string | null) ?? null;
     elevated = !!adminInfo?.elevated;
+    adminMode = (adminInfo?.admin_mode as string | null) ?? "member";
   }
   const ministryRole = (profile?.ministry_role as string | null) ?? null;
   // Onboarding order once a church exists: choose access mode (member vs
@@ -64,12 +67,15 @@ export default async function DashboardPage({
             )}
           </span>
         </Link>
-        <AccountPanel
-          name={(profile?.full_name as string) || ""}
-          email={user.email || ""}
-          avatarUrl={(profile?.avatar_url as string) || null}
-          userId={user.id}
-        />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <AccountPanel
+            name={(profile?.full_name as string) || ""}
+            email={user.email || ""}
+            avatarUrl={(profile?.avatar_url as string) || null}
+            userId={user.id}
+          />
+        </div>
       </header>
 
       <div className="mx-auto w-full max-w-4xl px-6 py-10">
@@ -119,21 +125,23 @@ export default async function DashboardPage({
               <VerseWidget />
             </div>
 
-            {/* Admin banner: if elevated, offers "view as member"; otherwise
-                "Switch to Admin" (gated by the passcode). Shown to everyone so
-                admin stays reachable to anyone who knows the code. */}
-            <div className="mt-6">
-              <AdminMode elevated={elevated} />
-            </div>
+            {/* Admin banner: only shown when elevated (non-admins see
+                "Become an admin" in the sidebar/nav instead). */}
+            {elevated && (
+              <div className="mt-6">
+                <AdminMode elevated={elevated} currentMode={adminMode} />
+              </div>
+            )}
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <FeatureCard title="Church Attendance" desc="Record figures per service & export the sheet." href="/dashboard/attendance" icon={ICONS.attendance} accent="bg-sky" />
-              <FeatureCard title="Follow-up" desc="Track visitors & members who need follow-up." href="/dashboard/followup" icon={ICONS.followup} accent="bg-deep" />
+              <FeatureCard title="Follow-up / Evangelism" desc="Track visitors & log evangelism encounters." href="/dashboard/followup" icon={ICONS.followup} accent="bg-deep" />
               <FeatureCard title="Sermons / Ministrations" desc="Listen to & download sermon messages." href="/dashboard/sermons" icon={ICONS.sermons} accent="bg-steel" />
               <FeatureCard title="Prayer Requests" desc="Send an anonymous request to the prayer team." href="/dashboard/prayer" icon={ICONS.prayer} accent="bg-deep" />
+              <FeatureCard title="Complaints & Suggestions" desc="Share anonymous feedback with leadership." href="/dashboard/complaints" icon={ICONS.complaints} accent="bg-navy" />
               <FeatureCard title="Daily Devotion" desc="Share a daily devotion guide." soon icon={ICONS.devotion} accent="bg-steel" />
               <FeatureCard title="Bible Quiz" desc="Test Bible knowledge with a quick quiz." href="/dashboard/quiz" img="/quiz-icon.png" />
-              <FeatureCard title="Donations" desc="Give to your church via the deposit details." href="/dashboard/donations" icon={ICONS.donations} accent="bg-steel" />
+              <FeatureCard title="Programs & Donations" desc="Register for programs & give to your church." href="/dashboard/donations" icon={ICONS.donations} accent="bg-steel" />
             </div>
           </>
         )}
@@ -186,6 +194,12 @@ const ICONS = {
     <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
       <path d="M4 11h16v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8ZM3 7.5h18V11H3V7.5ZM12 7.5V20" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
       <path d="M12 7.5C11 5 9.5 4 8.3 4.6 6.9 5.3 8 7.5 12 7.5ZM12 7.5c1-2.5 2.5-3.5 3.7-2.9 1.4.7.3 2.9-3.7 2.9Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+    </svg>
+  ),
+  complaints: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M12 8v3M12 14h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   ),
 };

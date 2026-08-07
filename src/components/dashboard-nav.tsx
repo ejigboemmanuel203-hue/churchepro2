@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BecomeAdminButton } from "@/components/admin-mode";
 
 const ic = "h-5 w-5";
 const ICONS = {
@@ -45,6 +46,12 @@ const ICONS = {
       <path d="M12 7.5C11 5 9.5 4 8.3 4.6 6.9 5.3 8 7.5 12 7.5ZM12 7.5c1-2.5 2.5-3.5 3.7-2.9 1.4.7.3 2.9-3.7 2.9Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
     </svg>
   ),
+  complaints: (
+    <svg viewBox="0 0 24 24" fill="none" className={ic}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M12 8v3M12 14h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  ),
   more: (
     <svg viewBox="0 0 24 24" fill="none" className={ic}>
       <circle cx="5" cy="12" r="1.6" fill="currentColor" />
@@ -62,8 +69,9 @@ const ALL: Item[] = [
   { href: "/dashboard/followup", label: "Follow-up", icon: ICONS.followup },
   { href: "/dashboard/sermons", label: "Sermons", icon: ICONS.sermons },
   { href: "/dashboard/prayer", label: "Prayer", icon: ICONS.prayer },
+  { href: "/dashboard/complaints", label: "Feedback", icon: ICONS.complaints },
   { href: "/dashboard/quiz", label: "Bible Quiz", icon: ICONS.quiz },
-  { href: "/dashboard/donations", label: "Donations", icon: ICONS.donations },
+  { href: "/dashboard/donations", label: "Programs", icon: ICONS.donations },
 ];
 
 // Mobile bottom bar shows these four; the rest live under "More".
@@ -75,7 +83,7 @@ function isActive(href: string, pathname: string) {
   return pathname.startsWith(href);
 }
 
-export function DashboardNav() {
+export function DashboardNav({ elevated }: { elevated: boolean }) {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
 
@@ -106,6 +114,11 @@ export function DashboardNav() {
             );
           })}
         </nav>
+        {!elevated && (
+          <div className="border-t border-steel/15 p-3">
+            <BecomeAdminButton />
+          </div>
+        )}
       </aside>
 
       {/* Mobile "More" sheet */}
@@ -129,6 +142,11 @@ export function DashboardNav() {
                 </Link>
               );
             })}
+            {!elevated && (
+              <div className="border-t border-steel/10 pt-1 mt-1">
+                <BecomeAdminButton />
+              </div>
+            )}
           </div>
         </div>
       )}
